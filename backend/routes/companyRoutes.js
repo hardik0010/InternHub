@@ -1,0 +1,96 @@
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const Company = require('../models/Company');
+const cloudinary = require('cloudinary').v2;
+const adminAuth = require('../middleware/auth');
+
+// Multer setup for PDF upload (memory storage)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// Helper to upload to Cloudinary as a Promise
+function uploadToCloudinary(fileBuffer) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: 'raw', folder: 'jd_pdfs' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+}
+
+// Add new company (with JD upload)
+router.post('/', adminAuth, upload.single('jd'), async (req, res) => {
+  try {
+    let jdUrl = '';
+    if (req.file) {
+      console.log('Uploading JD to Cloudinary...');
+      try {
+        const result = await uploadToCloudinary(req.file.buffer);
+        jdUrl = result.secure_url;
+        console.log('Cloudinary upload success:', jdUrl);
+      } catch (uploadErr) {
+        console.error('Cloudinary upload failed:', uploadErr);
+        return res.status(500).json({ error: 'Cloudinary upload failed', details: uploadErr.message });
+      }
+    }
+    const {
+      name, role, description, visitDate, applyLink,
+      eligibility, selectionRounds, faqs, prepTips, status
+    } = req.body;
+    const company = new Company({
+      name, role, description, visitDate, applyLink,
+      eligibility: eligibility ? JSON.parse(eligibility) : {},
+      selectionRounds: selectionRounds ? JSON.parse(selectionRounds) : [],
+      faqs: faqs ? JSON.parse(faqs) : [],
+      prepTips: prepTips ? JSON.parse(prepTips) : [],
+      jdUrl,
+      status: status || 'draft',
+    });
+    await company.save();
+    res.status(201).json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get company details
+router.get('/:id', async (req, res) => {
+  try {
+    const company = await Company.findById(req.params.id);
+    if (!company) return res.status(404).json({ error: 'Company not found' });
+    res.json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Save as draft (update or create)
+router.put('/:id/draft', adminAuth, upload.single('jd'), async (req, res) => {
+  try {
+    let jdUrl = '';
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      jdUrl = result.secure_url;
+    }
+    const update = {
+      ...req.body,
+      eligibility: req.body.eligibility ? JSON.parse(req.body.eligibility) : {},
+      selectionRounds: req.body.selectionRounds ? JSON.parse(req.body.selectionRounds) : [],
+      faqs: req.body.faqs ? JSON.parse(req.body.faqs) : [],
+      prepTips: req.body.prepTips ? JSON.parse(req.body.prepTips) : [],
+      status: 'draft',
+    };
+    if (jdUrl) update.jdUrl = jdUrl;
+    const company = await Company.findByIdAndUpdate(req.params.id, update, { new: true, upsert: true });
+    res.json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router; 
