@@ -1,0 +1,193 @@
+/* AddCompany.css - Modern, clean, and responsive styles for AddCompany page */
+
+.add-company-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.add-company-stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 8px;
+}
+
+.add-company-step {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 8px;
+  background: #f3f6fa;
+  color: #888;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.add-company-step.active {
+  background: #1976d2;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+
+.add-company-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #222;
+}
+
+.add-company-form input,
+.add-company-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: border 0.2s;
+}
+
+.add-company-form input:focus,
+.add-company-form textarea:focus {
+  border: 1.5px solid #1976d2;
+  outline: none;
+  background: #fff;
+}
+
+.add-company-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-company-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #1976d2;
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+
+.btn.secondary {
+  background: #e3eafc;
+  color: #1976d2;
+  box-shadow: none;
+}
+
+.btn:disabled {
+  background: #b0b8c1;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.add-btn {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.remove-btn {
+  margin-left: 8px;
+  background: #fbe9e7;
+  color: #d32f2f;
+}
+
+.add-company-error {
+  color: #d32f2f;
+  background: #fff0f0;
+  border: 1px solid #ffd6d6;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.add-company-success {
+  color: #388e3c;
+  background: #e8f5e9;
+  border: 1px solid #b2dfdb;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.faq-tip-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .add-company-container {
+    padding: 16px 4vw;
+    max-width: 98vw;
+  }
+  .add-company-stepper {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .add-company-step {
+    margin-bottom: 2px;
+  }
+  .add-company-btn-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .faq-tip-row {
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+  }
+}
+
+/* Modal styles (for preview/confirm) */
+.add-company-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.add-company-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  padding: 32px 24px;
+  max-width: 95vw;
+  min-width: 320px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f3f6fa;
+}
+::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+  border-radius: 8px;
+} 

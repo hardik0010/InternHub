@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './App.css';
+import './AddCompany.css'; // Switched to a new CSS file for modern styles
 
 const steps = [
   'Basic Info',
@@ -247,25 +247,27 @@ function AddCompany() {
     }
   };
 
-  // Preview modal (simple)
+  // Preview modal (modern)
   const renderPreview = () => (
-    <div className="add-company-preview-modal">
-      <div className="add-company-preview-content">
+    <div className="add-company-modal-overlay">
+      <div className="add-company-modal">
         <h2>Preview</h2>
-        <pre>{JSON.stringify(form, null, 2)}</pre>
-        <button onClick={closePreview}>Close Preview</button>
+        <pre style={{background:'#f3f6fa',padding:'16px',borderRadius:'8px',overflowX:'auto'}}>{JSON.stringify(form, null, 2)}</pre>
+        <div className="add-company-btn-row">
+          <button className="btn secondary" onClick={closePreview}>Close Preview</button>
+        </div>
       </div>
     </div>
   );
 
-  // Confirmation dialog
+  // Confirmation dialog (modern)
   const renderConfirmDialog = (type) => (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ background: '#fff', padding: 32, borderRadius: 8, minWidth: 300 }}>
-        <h3>Are you sure you want to {type === 'publish' ? 'publish' : 'save as draft'}?</h3>
-        <div style={{ marginTop: 24, display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-          <button onClick={() => setShowConfirm({ ...showConfirm, [type]: false })}>Cancel</button>
-          <button onClick={type === 'publish' ? handleSubmit : saveAsDraft} disabled={saving} style={{ background: '#007bff', color: '#fff' }}>{type === 'publish' ? 'Publish' : 'Save as Draft'}</button>
+    <div className="add-company-modal-overlay">
+      <div className="add-company-modal">
+        <h3 style={{marginBottom:16}}>Are you sure you want to {type === 'publish' ? 'publish' : 'save as draft'}?</h3>
+        <div className="add-company-btn-row">
+          <button className="btn secondary" onClick={() => setShowConfirm({ ...showConfirm, [type]: false })}>Cancel</button>
+          <button className="btn" onClick={type === 'publish' ? handleSubmit : saveAsDraft} disabled={saving}>{type === 'publish' ? (saving ? 'Publishing...' : 'Publish') : (saving ? 'Saving...' : 'Save as Draft')}</button>
         </div>
       </div>
     </div>
@@ -273,19 +275,22 @@ function AddCompany() {
 
   return (
     <div className="add-company-container">
-      <h2>Add New Company</h2>
+      <button className="btn secondary" style={{alignSelf:'flex-start',marginBottom:8}} onClick={() => navigate('/admin-dashboard')}>
+        ← Back to Admin Dashboard
+      </button>
+      <h2 style={{marginBottom:0}}>Add New Company</h2>
       {renderStepper()}
       <form className="add-company-form" onSubmit={e => { e.preventDefault(); setShowConfirm({ ...showConfirm, publish: true }); }}>
         {renderStep()}
-        <div className="form-actions">
+        <div className="add-company-btn-row">
           {step > 0 && <button type="button" className="btn secondary" onClick={prevStep} disabled={saving || fileUploading}>Back</button>}
-          {step < steps.length - 1 && <button type="button" className="btn primary" onClick={nextStep} disabled={saving || fileUploading}>Next</button>}
-          {step === steps.length - 1 && <button type="submit" className="btn primary" disabled={saving || fileUploading}>{saving ? 'Publishing...' : 'Publish'}</button>}
+          {step < steps.length - 1 && <button type="button" className="btn" onClick={nextStep} disabled={saving || fileUploading}>Next</button>}
+          {step === steps.length - 1 && <button type="submit" className="btn" disabled={saving || fileUploading}>{saving ? 'Publishing...' : 'Publish'}</button>}
           <button type="button" className="btn secondary" onClick={() => setShowConfirm({ ...showConfirm, draft: true })} disabled={saving || fileUploading}>{saving ? 'Saving...' : 'Save as Draft'}</button>
           <button type="button" className="btn secondary" onClick={handlePreview}>Preview</button>
         </div>
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
+        {error && <div className="add-company-error">{error}</div>}
+        {success && <div className="add-company-success">{success}</div>}
         {(saving || fileUploading) && <div style={{marginTop:10, color:'#2563eb'}}>Please wait...</div>}
       </form>
       {preview && renderPreview()}

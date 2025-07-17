@@ -5,6 +5,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import AdminLogin from './AdminLogin';
 import AdminDashboard from './AdminDashboard';
 import AddCompany from './AddCompany';
+import EditCompany from './EditCompany'; // (to be created)
 
 function RequireAdminAuth({ children }) {
   const isAuthenticated = !!localStorage.getItem('admin_token');
@@ -21,6 +22,16 @@ function App() {
         </RequireAdminAuth>
       } />
       <Route path="/admin/companies/add" element={<AddCompany />} />
+      <Route path="/admin/companies/edit" element={
+        <RequireAdminAuth>
+          <EditCompany selectMode={true} />
+        </RequireAdminAuth>
+      } />
+      <Route path="/admin/companies/edit/:id" element={
+        <RequireAdminAuth>
+          <EditCompany />
+        </RequireAdminAuth>
+      } />
       <Route path="/" element={
           <div className="app-container">
             {/* Hero Section */}

@@ -20,6 +20,7 @@ const CompanySchema = new mongoose.Schema({
   }],
   prepTips: [{ type: String }],
   status: { type: String, enum: ['draft', 'published'], default: 'draft' },
+  applicantList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Company', CompanySchema); 

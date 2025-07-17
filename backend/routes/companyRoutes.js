@@ -93,4 +93,58 @@ router.put('/:id/draft', adminAuth, upload.single('jd'), async (req, res) => {
   }
 });
 
+// List all companies (for selection in edit page)
+router.get('/', adminAuth, async (req, res) => {
+  try {
+    const companies = await Company.find();
+    res.json(companies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update company details (edit)
+router.put('/:id', adminAuth, upload.single('jd'), async (req, res) => {
+  try {
+    let jdUrl = '';
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      jdUrl = result.secure_url;
+    }
+    const update = {
+      ...req.body,
+      eligibility: req.body.eligibility ? JSON.parse(req.body.eligibility) : {},
+      selectionRounds: req.body.selectionRounds ? JSON.parse(req.body.selectionRounds) : [],
+      faqs: req.body.faqs ? JSON.parse(req.body.faqs) : [],
+      prepTips: req.body.prepTips ? JSON.parse(req.body.prepTips) : [],
+    };
+    if (jdUrl) update.jdUrl = jdUrl;
+    const company = await Company.findByIdAndUpdate(req.params.id, update, { new: true });
+    res.json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Publish a draft company
+router.put('/:id/publish', adminAuth, async (req, res) => {
+  try {
+    const company = await Company.findByIdAndUpdate(req.params.id, { status: 'published' }, { new: true });
+    res.json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get applicant list for a company
+router.get('/:id/applicants', adminAuth, async (req, res) => {
+  try {
+    const company = await Company.findById(req.params.id).populate('applicantList');
+    if (!company) return res.status(404).json({ error: 'Company not found' });
+    res.json(company.applicantList);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router; 

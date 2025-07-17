@@ -10,10 +10,15 @@ A complete MERN stack platform for managing campus placements, company listings,
 - **Add Company**: Multi-step form with:
   - Basic info, eligibility, selection rounds, JD PDF upload (Cloudinary), FAQs, and preparation tips.
   - Save as draft, preview, and publish options.
+- **Edit Company**: 
+  - Edit all company details, update JD, eligibility, selection rounds, deadlines, FAQs, and tips.
+  - View and manage drafted and published companies separately.
+  - Publish drafted companies directly from the dashboard.
+  - View applicant list for each company.
 - **Cloudinary Integration**: Secure JD PDF uploads and storage.
 - **MongoDB Atlas**: All data stored securely in the cloud.
 - **JWT Authentication**: Secure admin routes and actions.
-- **Modern UI/UX**: Responsive, professional design.
+- **Modern UI/UX**: Responsive, professional design throughout.
 
 ---
 
@@ -65,8 +70,30 @@ cd InternHub
 
 ## 🔒 Environment & Security
 - **Never commit your `.env` file.** All secrets and credentials must be kept out of version control.
-- Ensure `.env` is listed in `.gitignore`.
-- All sensitive configuration (API keys, secrets, URIs) should be managed via environment variables.
+- `.env` is already listed in `.gitignore`.
+- All sensitive configuration (API keys, secrets, URIs) are managed via environment variables.
+- No hardcoded secrets are present in the codebase.
+
+---
+
+## 💾 Backup & Version Control
+
+### Pushing to GitHub
+1. **Check for uncommitted changes:**
+   ```sh
+   git status
+   ```
+2. **Add and commit your changes:**
+   ```sh
+   git add .
+   git commit -m "Update: Add/Edit company features, UI improvements, bugfixes"
+   ```
+3. **Push to your remote repository:**
+   ```sh
+   git push origin main
+   ```
+
+> **Tip:** Always verify that `.env` and other sensitive files are not being tracked by git.
 
 ---
 

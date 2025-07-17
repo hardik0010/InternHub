@@ -105,6 +105,7 @@ function AdminDashboard() {
           <div className="dashboard-quick-actions">
             <h4>Quick Actions</h4>
             <button className="btn secondary dashboard-action-btn" onClick={() => navigate('/admin/companies/add')}><FaPlus style={{marginRight:8}}/>Add Company</button>
+            <button className="btn secondary dashboard-action-btn" onClick={() => navigate('/admin/companies/edit')}><FaClipboardCheck style={{marginRight:8}}/>Edit Company</button>
             <button className="btn secondary dashboard-action-btn"><FaBullhorn style={{marginRight:8}}/>Post Announcement</button>
           </div>
         </div>
