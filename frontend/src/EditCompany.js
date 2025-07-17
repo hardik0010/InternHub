@@ -103,6 +103,7 @@ function EditCompany({ selectMode }) {
   if (selectMode) {
     const published = companies.filter(c => c.status === 'published');
     const drafts = companies.filter(c => c.status === 'draft');
+    const closed = companies.filter(c => c.status === 'closed');
     return (
       <div className="add-company-container">
         <button className="btn secondary" style={{alignSelf:'flex-start',marginBottom:8}} onClick={() => navigate('/admin-dashboard')}>
@@ -122,7 +123,7 @@ function EditCompany({ selectMode }) {
             ))}
           </ul>
         </div>
-        <div>
+        <div style={{marginBottom:24}}>
           <h3 style={{marginBottom:12}}>Drafted Companies</h3>
           {drafts.length === 0 && <div style={{color:'#888',marginBottom:12}}>No drafted companies.</div>}
           <ul style={{listStyle:'none',padding:0}}>
@@ -140,6 +141,18 @@ function EditCompany({ selectMode }) {
                     }
                   }}>Publish</button>
                 </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 style={{marginBottom:12}}>Closed Companies</h3>
+          {closed.length === 0 && <div style={{color:'#888',marginBottom:12}}>No closed companies.</div>}
+          <ul style={{listStyle:'none',padding:0}}>
+            {closed.map(c => (
+              <li key={c._id} style={{marginBottom:12,display:'flex',alignItems:'center',justifyContent:'space-between',background:'#f8d7da',padding:'12px 16px',borderRadius:8}}>
+                <span><b>{c.name}</b> <span style={{color:'#888',fontSize:'0.95em'}}>({c.role})</span></span>
+                <button className="btn" onClick={() => navigate(`/admin/companies/edit/${c._id}`)}>Edit</button>
               </li>
             ))}
           </ul>
@@ -221,6 +234,21 @@ function EditCompany({ selectMode }) {
         <div className="add-company-btn-row">
           <button type="submit" className="btn" disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</button>
           <button type="button" className="btn secondary" onClick={() => handleSave(true)} disabled={saving}>Publish</button>
+          {form.status === 'published' && (
+            <button type="button" className="btn secondary" style={{background:'#f8d7da',color:'#b71c1c'}} onClick={async () => {
+              setSaving(true);
+              setError('');
+              setSuccess('');
+              try {
+                await axios.put(`/api/companies/${form._id}/close`, {}, { headers: getAuthHeaders() });
+                setForm(f => ({ ...f, status: 'closed' }));
+                setSuccess('Company closed!');
+              } catch (err) {
+                setError('Failed to close company');
+              }
+              setSaving(false);
+            }}>Close Company</button>
+          )}
           <button type="button" className="btn secondary" onClick={fetchApplicants}>View Applicants</button>
         </div>
       </form>

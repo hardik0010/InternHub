@@ -12,9 +12,15 @@ A complete MERN stack platform for managing campus placements, company listings,
   - Save as draft, preview, and publish options.
 - **Edit Company**: 
   - Edit all company details, update JD, eligibility, selection rounds, deadlines, FAQs, and tips.
-  - View and manage drafted and published companies separately.
-  - Publish drafted companies directly from the dashboard.
-  - View applicant list for each company.
+  - View and manage drafted, published, and closed companies separately.
+  - Publish drafted companies, close published companies, and view applicant list for each company.
+- **Company Management Page** (`/admin/companies`):
+  - Table view of all companies with columns: Name, Role, Status, Applicant Count, Actions.
+  - Search by name or role.
+  - Filter by status (Active, Closed, Draft, All).
+  - Edit, Delete, and Close actions for each company.
+  - Export to CSV/Excel (static for now).
+  - Applicant count (static for now, ready for future dynamic update).
 - **Cloudinary Integration**: Secure JD PDF uploads and storage.
 - **MongoDB Atlas**: All data stored securely in the cloud.
 - **JWT Authentication**: Secure admin routes and actions.
@@ -76,6 +82,31 @@ cd InternHub
 
 ---
 
+## 💾 Backup & Version Control
+
+### Pushing Updates to GitHub
+1. **Check for uncommitted changes:**
+   ```sh
+   git status
+   ```
+2. **Add and commit your changes:**
+   ```sh
+   git add .
+   git commit -m "Update: Company Management page, UI improvements, bugfixes"
+   ```
+3. **Pull latest changes from remote (if needed):**
+   ```sh
+   git pull origin main
+   ```
+   - Resolve any merge conflicts if prompted, then commit again.
+4. **Push your changes to GitHub:**
+   ```sh
+   git push origin main
+   ```
+
+> **Tip:** Always verify that `.env` and other sensitive files are not being tracked by git.
+
+---
 
 ## 🤝 Contribution
 

@@ -6,6 +6,7 @@ import AdminLogin from './AdminLogin';
 import AdminDashboard from './AdminDashboard';
 import AddCompany from './AddCompany';
 import EditCompany from './EditCompany'; // (to be created)
+import CompanyManagement from './CompanyManagement'; // (to be created)
 
 function RequireAdminAuth({ children }) {
   const isAuthenticated = !!localStorage.getItem('admin_token');
@@ -30,6 +31,11 @@ function App() {
       <Route path="/admin/companies/edit/:id" element={
         <RequireAdminAuth>
           <EditCompany />
+        </RequireAdminAuth>
+      } />
+      <Route path="/admin/companies" element={
+        <RequireAdminAuth>
+          <CompanyManagement />
         </RequireAdminAuth>
       } />
       <Route path="/" element={

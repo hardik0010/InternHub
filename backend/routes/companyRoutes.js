@@ -58,11 +58,32 @@ router.post('/', adminAuth, upload.single('jd'), async (req, res) => {
   }
 });
 
-// List all companies (for selection in edit page)
+// List all companies (with search and filter)
 router.get('/', adminAuth, async (req, res) => {
   try {
-    const companies = await Company.find();
+    const { search, status } = req.query;
+    let query = {};
+    if (status && status !== 'all') query.status = status;
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { role: { $regex: search, $options: 'i' } }
+      ];
+    }
+    let companies = await Company.find(query);
+    // Add static applicantCount for now
+    companies = companies.map(c => ({ ...c.toObject(), applicantCount: 42 }));
     res.json(companies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete a company
+router.delete('/:id', adminAuth, async (req, res) => {
+  try {
+    await Company.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -72,6 +93,26 @@ router.get('/', adminAuth, async (req, res) => {
 router.get('/count', adminAuth, async (req, res) => {
   try {
     const count = await Company.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get published company count
+router.get('/count/published', adminAuth, async (req, res) => {
+  try {
+    const count = await Company.countDocuments({ status: 'published' });
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get closed company count
+router.get('/count/closed', adminAuth, async (req, res) => {
+  try {
+    const count = await Company.countDocuments({ status: 'closed' });
     res.json({ count });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -140,6 +181,16 @@ router.put('/:id', adminAuth, upload.single('jd'), async (req, res) => {
 router.put('/:id/publish', adminAuth, async (req, res) => {
   try {
     const company = await Company.findByIdAndUpdate(req.params.id, { status: 'published' }, { new: true });
+    res.json(company);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Close a published company
+router.put('/:id/close', adminAuth, async (req, res) => {
+  try {
+    const company = await Company.findByIdAndUpdate(req.params.id, { status: 'closed' }, { new: true });
     res.json(company);
   } catch (err) {
     res.status(500).json({ error: err.message });

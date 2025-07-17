@@ -19,7 +19,7 @@ const CompanySchema = new mongoose.Schema({
     answer: String
   }],
   prepTips: [{ type: String }],
-  status: { type: String, enum: ['draft', 'published'], default: 'draft' },
+  status: { type: String, enum: ['draft', 'published', 'closed'], default: 'draft' },
   applicantList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 }, { timestamps: true });
 

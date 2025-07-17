@@ -40,12 +40,20 @@ const recentActivity = [
 function AdminDashboard() {
   const navigate = useNavigate();
   const [companyCount, setCompanyCount] = React.useState(null);
+  const [publishedCount, setPublishedCount] = React.useState(null);
+  const [closedCount, setClosedCount] = React.useState(null);
   React.useEffect(() => {
     const token = localStorage.getItem('admin_token');
     if (!token) return;
     axios.get('/api/companies/count', { headers: { Authorization: `Bearer ${token}` } })
       .then(res => setCompanyCount(res.data.count))
       .catch(() => setCompanyCount('—'));
+    axios.get('/api/companies/count/published', { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => setPublishedCount(res.data.count))
+      .catch(() => setPublishedCount('—'));
+    axios.get('/api/companies/count/closed', { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => setClosedCount(res.data.count))
+      .catch(() => setClosedCount('—'));
   }, []);
 
   const handleLogout = () => {
@@ -62,22 +70,34 @@ function AdminDashboard() {
       <div className="dashboard-content">
         {/* Analytics Cards */}
         <div className="dashboard-cards-grid">
-          <div className="dashboard-card" style={{ borderTop: '4px solid #4f8cff', cursor: 'pointer' }} onClick={() => navigate('/admin/companies/edit')}>
+          <div className="dashboard-card" style={{ borderTop: '4px solid #4f8cff', cursor: 'pointer' }} onClick={() => navigate('/admin/companies')}>
             <div className="dashboard-card-icon" style={{ color: '#4f8cff' }}><FaBuilding /></div>
             <div className="dashboard-card-info">
               <h3>{companyCount === null ? '...' : companyCount}</h3>
               <p>Total Companies</p>
             </div>
           </div>
-          {analyticsData.slice(1).map((card, idx) => (
-            <div className="dashboard-card" key={idx+1} style={{ borderTop: `4px solid ${card.color}` }}>
-              <div className="dashboard-card-icon" style={{ color: card.color }}>{card.icon}</div>
-              <div className="dashboard-card-info">
-                <h3>{card.value}</h3>
-                <p>{card.title}</p>
-              </div>
+          <div className="dashboard-card" style={{ borderTop: '4px solid #22c55e' }}>
+            <div className="dashboard-card-icon" style={{ color: '#22c55e' }}><FaUserGraduate /></div>
+            <div className="dashboard-card-info">
+              <h3>320</h3>
+              <p>Student Applications</p>
             </div>
-          ))}
+          </div>
+          <div className="dashboard-card" style={{ borderTop: '4px solid #2563eb', cursor: 'pointer' }} onClick={() => navigate('/admin/companies/edit')}>
+            <div className="dashboard-card-icon" style={{ color: '#2563eb' }}><FaCheckCircle /></div>
+            <div className="dashboard-card-info">
+              <h3>{publishedCount === null ? '...' : publishedCount}</h3>
+              <p>Active Positions</p>
+            </div>
+          </div>
+          <div className="dashboard-card" style={{ borderTop: '4px solid #e53e3e', cursor: 'pointer' }} onClick={() => navigate('/admin/companies/edit')}>
+            <div className="dashboard-card-icon" style={{ color: '#e53e3e' }}><FaTimesCircle /></div>
+            <div className="dashboard-card-info">
+              <h3>{closedCount === null ? '...' : closedCount}</h3>
+              <p>Closed Positions</p>
+            </div>
+          </div>
         </div>
 
         {/* Charts Section */}
