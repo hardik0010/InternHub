@@ -76,26 +76,6 @@ cd InternHub
 
 ---
 
-## 💾 Backup & Version Control
-
-### Pushing to GitHub
-1. **Check for uncommitted changes:**
-   ```sh
-   git status
-   ```
-2. **Add and commit your changes:**
-   ```sh
-   git add .
-   git commit -m "Update: Add/Edit company features, UI improvements, bugfixes"
-   ```
-3. **Push to your remote repository:**
-   ```sh
-   git push origin main
-   ```
-
-> **Tip:** Always verify that `.env` and other sensitive files are not being tracked by git.
-
----
 
 ## 🤝 Contribution
 
