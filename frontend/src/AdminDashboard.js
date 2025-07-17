@@ -3,6 +3,7 @@ import './App.css';
 import { FaBuilding, FaUserGraduate, FaChartBar, FaClipboardCheck, FaPlus, FaBullhorn, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const analyticsData = [
   { title: 'Total Companies', value: 24, icon: <FaBuilding />, color: '#4f8cff' },
@@ -38,6 +39,15 @@ const recentActivity = [
 
 function AdminDashboard() {
   const navigate = useNavigate();
+  const [companyCount, setCompanyCount] = React.useState(null);
+  React.useEffect(() => {
+    const token = localStorage.getItem('admin_token');
+    if (!token) return;
+    axios.get('/api/companies/count', { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => setCompanyCount(res.data.count))
+      .catch(() => setCompanyCount('—'));
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     window.location.href = '/admin-login';
@@ -52,8 +62,15 @@ function AdminDashboard() {
       <div className="dashboard-content">
         {/* Analytics Cards */}
         <div className="dashboard-cards-grid">
-          {analyticsData.map((card, idx) => (
-            <div className="dashboard-card" key={idx} style={{ borderTop: `4px solid ${card.color}` }}>
+          <div className="dashboard-card" style={{ borderTop: '4px solid #4f8cff', cursor: 'pointer' }} onClick={() => navigate('/admin/companies/edit')}>
+            <div className="dashboard-card-icon" style={{ color: '#4f8cff' }}><FaBuilding /></div>
+            <div className="dashboard-card-info">
+              <h3>{companyCount === null ? '...' : companyCount}</h3>
+              <p>Total Companies</p>
+            </div>
+          </div>
+          {analyticsData.slice(1).map((card, idx) => (
+            <div className="dashboard-card" key={idx+1} style={{ borderTop: `4px solid ${card.color}` }}>
               <div className="dashboard-card-icon" style={{ color: card.color }}>{card.icon}</div>
               <div className="dashboard-card-info">
                 <h3>{card.value}</h3>

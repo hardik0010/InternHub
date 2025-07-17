@@ -58,6 +58,26 @@ router.post('/', adminAuth, upload.single('jd'), async (req, res) => {
   }
 });
 
+// List all companies (for selection in edit page)
+router.get('/', adminAuth, async (req, res) => {
+  try {
+    const companies = await Company.find();
+    res.json(companies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get total company count
+router.get('/count', adminAuth, async (req, res) => {
+  try {
+    const count = await Company.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get company details
 router.get('/:id', async (req, res) => {
   try {
@@ -88,16 +108,6 @@ router.put('/:id/draft', adminAuth, upload.single('jd'), async (req, res) => {
     if (jdUrl) update.jdUrl = jdUrl;
     const company = await Company.findByIdAndUpdate(req.params.id, update, { new: true, upsert: true });
     res.json(company);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// List all companies (for selection in edit page)
-router.get('/', adminAuth, async (req, res) => {
-  try {
-    const companies = await Company.find();
-    res.json(companies);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
