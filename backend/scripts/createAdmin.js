@@ -14,8 +14,8 @@ async function createAdmin() {
     process.exit();
   }
   const admin = new User({
-    username: 'admin',
-    password: 'admin@123', // Change this to a secure password
+    username: process.env.ADMIN_USERNAME || 'admin',
+    password: process.env.ADMIN_PASSWORD || 'admin@123', // Set ADMIN_PASSWORD in .env for production
     role: 'admin'
   });
   await admin.save();

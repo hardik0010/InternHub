@@ -30,7 +30,7 @@ app.use(cors());
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-console.log('Loaded MONGODB_URI:', process.env.MONGODB_URI);
+console.log('Loaded MONGODB_URI:', process.env.MONGODB_URI ? '***CONFIGURED***' : '***NOT CONFIGURED***');
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,

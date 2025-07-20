@@ -11,9 +11,6 @@ const { createEmailTemplate } = require('../templates/emailTemplates');
 require('dotenv').config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Configure SendGrid
-sgMail.setApiKey('***REMOVED***TBGrdZTETpWuxgjUHhXK6w.tnY0F_jE7EqoOfHWjO2SYiv7CzGxJsqZNgSXK--8dfQ');
-
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
