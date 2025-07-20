@@ -4,14 +4,26 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const http = require('http');
+const socketIo = require('socket.io');
 const User = require('./models/User');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const companyRoutes = require('./routes/companyRoutes');
+const userRoutes = require('./routes/userRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
 app.use(express.json());
 app.use(cors());
 
@@ -32,6 +44,25 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Socket.io connection handling
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  // Join student room for notifications
+  socket.on('join-student', (studentId) => {
+    socket.join(`student-${studentId}`);
+    console.log(`Student ${studentId} joined their room`);
+  });
+
+  // Handle disconnect
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+// Make io available to routes
+app.set('io', io);
 
 app.get('/', (req, res) => {
   res.send('InternHub backend is running!');
@@ -59,7 +90,9 @@ app.post('/api/admin/login', async (req, res) => {
 });
 
 app.use('/api/companies', companyRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/student', studentRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 }); 

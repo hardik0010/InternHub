@@ -64,7 +64,10 @@ function AdminDashboard() {
   return (
     <div className="admin-dashboard-container">
       <header className="admin-dashboard-header">
-        <h2>Admin Dashboard</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img src="/image.png" alt="LJIET Logo" style={{ height: 90, width: 90, objectFit: 'contain' }} />
+          <h2 style={{ margin: 0 }}>LJIET Admin Dashboard</h2>
+        </div>
         <button className="btn secondary" onClick={handleLogout}>Logout</button>
       </header>
       <div className="dashboard-content">

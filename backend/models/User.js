@@ -2,8 +2,19 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true },
+  collegeId: { type: String, required: true, unique: true }, // Enrollment Number
+  branch: { type: String, required: true },
+  batch: { type: String, required: true },
+  cgpa: { type: Number, required: true },
   password: { type: String, required: true },
+  profilePicUrl: { type: String },
+  isVerified: { type: Boolean, default: false },
+  verificationToken: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
   role: { type: String, enum: ['admin', 'user'], default: 'user' }
 });
 

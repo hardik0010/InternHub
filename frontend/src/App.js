@@ -1,12 +1,23 @@
 import React from 'react';
 import './App.css';
 import { FaBuilding, FaUserGraduate, FaChartBar, FaClipboardCheck, FaRegClock, FaSearch, FaCloudUploadAlt, FaUserShield, FaBell, FaBookmark, FaFileAlt, FaUserCircle, FaPlus } from 'react-icons/fa';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import AdminLogin from './AdminLogin';
 import AdminDashboard from './AdminDashboard';
 import AddCompany from './AddCompany';
 import EditCompany from './EditCompany'; // (to be created)
 import CompanyManagement from './CompanyManagement'; // (to be created)
+import Register from './Register';
+import Login from './Login';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
+import EmailVerification from './EmailVerification';
+
+import StudentDashboard from './StudentDashboard';
+import Companies from './Companies';
+import Applications from './Applications';
+import Bookmarks from './Bookmarks';
+import ResumeUpload from './ResumeUpload';
 
 function RequireAdminAuth({ children }) {
   const isAuthenticated = !!localStorage.getItem('admin_token');
@@ -38,6 +49,17 @@ function App() {
           <CompanyManagement />
         </RequireAdminAuth>
       } />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/verify-email/:token" element={<EmailVerification />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/user-dashboard" element={<Navigate to="/student/dashboard" replace />} />
+      <Route path="/student/dashboard" element={<StudentDashboard />} />
+      <Route path="/companies" element={<Companies />} />
+      <Route path="/applications" element={<Applications />} />
+      <Route path="/bookmarks" element={<Bookmarks />} />
+      <Route path="/upload-resume" element={<ResumeUpload />} />
       <Route path="/" element={
           <div className="app-container">
             {/* Hero Section */}
@@ -46,8 +68,8 @@ function App() {
                 <h1>Welcome to InternHub</h1>
                 <p>Your one-stop platform for campus placements and internship opportunities.</p>
                 <div className="hero-buttons">
-                  <a href="#login" className="btn primary">Login</a>
-                  <a href="#register" className="btn secondary">Register</a>
+                  <Link to="/login" className="btn primary">Login</Link>
+                  <Link to="/register" className="btn secondary">Register</Link>
                 </div>
               </div>
             </header>
