@@ -26,7 +26,8 @@ function EmailVerification() {
         }
       } catch (error) {
         console.error('Verification error:', error);
-        setStatus('error');
+        // Only set error if not already success
+        setStatus(prev => prev === 'success' ? 'success' : 'error');
         setMessage(error.response?.data?.message || 'Email verification failed. Please try again.');
       }
     };
@@ -52,7 +53,8 @@ function EmailVerification() {
           <div className="verification-content">
             <FaCheckCircle className="verification-icon success" />
             <h2>Email Verified Successfully!</h2>
-            <p>{message}</p>
+            {/* Only show the main success message, not the login message */}
+            <p>Email verification completed. You can now login to your account.</p>
             <div className="verification-actions">
               <Link to="/login" className="btn primary">Login Now</Link>
               <Link to="/" className="btn secondary">Go to Home</Link>
@@ -66,9 +68,16 @@ function EmailVerification() {
             <FaTimesCircle className="verification-icon error" />
             <h2>Verification Failed</h2>
             <p>{message}</p>
+            {/* If the error is due to already verified, show login option */}
+            {message && message.toLowerCase().includes('already verified') && (
+              <p>You can login to your account now.</p>
+            )}
             <div className="verification-actions">
               <Link to="/register" className="btn primary">Register Again</Link>
               <Link to="/" className="btn secondary">Go to Home</Link>
+              {message && message.toLowerCase().includes('already verified') && (
+                <Link to="/login" className="btn primary">Login Now</Link>
+              )}
             </div>
           </div>
         );

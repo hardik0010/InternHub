@@ -15,11 +15,14 @@ import {
   FaClock,
   FaExclamationTriangle,
   FaTimes,
-  FaSpinner
+  FaSpinner,
+  FaBriefcase
 } from 'react-icons/fa';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './App.css';
+
+const ITEMS_PER_PAGE = 3;
 
 const StudentDashboard = () => {
   const [user, setUser] = useState(null);
@@ -38,6 +41,8 @@ const StudentDashboard = () => {
   const [socket, setSocket] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [activitiesPage, setActivitiesPage] = useState(1);
+  const [deadlinesPage, setDeadlinesPage] = useState(1);
 
   useEffect(() => {
     const token = localStorage.getItem('user_token');
@@ -157,6 +162,13 @@ const StudentDashboard = () => {
     }
   };
 
+  // Pagination logic
+  const paginatedActivities = recentActivities.slice((activitiesPage - 1) * ITEMS_PER_PAGE, activitiesPage * ITEMS_PER_PAGE);
+  const totalActivitiesPages = Math.ceil(recentActivities.length / ITEMS_PER_PAGE);
+
+  const paginatedDeadlines = upcomingDeadlines.slice((deadlinesPage - 1) * ITEMS_PER_PAGE, deadlinesPage * ITEMS_PER_PAGE);
+  const totalDeadlinesPages = Math.ceil(upcomingDeadlines.length / ITEMS_PER_PAGE);
+
   if (loading) {
     return (
       <div className="auth-container">
@@ -189,22 +201,26 @@ const StudentDashboard = () => {
       {/* Header */}
       <header className="dashboard-header">
         <div className="dashboard-header-content">
-          <div className="dashboard-header-left">
-            <h1>Welcome, {user?.name}!</h1>
-            <p>Your InternHub Student Dashboard</p>
+          <div className="dashboard-header-left" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '1.7rem', color: '#2563eb' }}>
+              <FaBriefcase style={{ marginRight: 8, color: '#2563eb', fontSize: '2rem' }} /> InternHub
+            </span>
           </div>
-          <div className="dashboard-header-right">
+          <div className="dashboard-header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ color: '#2c3e50', fontSize: '1.05rem', marginRight: 8 }}>
+              Welcome back, <b style={{ color: '#222', fontWeight: 700 }}>{user?.name}</b>
+            </span>
             <div className="notification-wrapper">
               <button 
-                className="btn secondary notification-btn"
+                className="btn notification-btn"
+                style={{ background: '#fff', border: '2px solid #2563eb', color: '#2563eb', borderRadius: '12px', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', marginRight: 0, padding: 0 }}
                 onClick={() => setShowNotifications(!showNotifications)}
               >
-                <FaBell />
+                <FaBell style={{ color: '#2563eb', fontSize: '1.5rem', margin: 0, padding: 0, display: 'block' }} />
                 {stats.unreadNotifications > 0 && (
                   <span className="notification-badge">{stats.unreadNotifications}</span>
                 )}
               </button>
-              
               {showNotifications && (
                 <div className="notification-dropdown">
                   <div className="notification-header">
@@ -242,9 +258,8 @@ const StudentDashboard = () => {
                 </div>
               )}
             </div>
-            <button className="btn secondary" onClick={handleLogout}>
-              <FaSignOutAlt style={{ marginRight: '8px' }} />
-              Logout
+            <button className="btn primary" onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#ef4444', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: '1.05rem', padding: '8px 18px' }}>
+              <FaSignOutAlt /> Logout
             </button>
           </div>
         </div>
@@ -255,108 +270,75 @@ const StudentDashboard = () => {
         {/* Stats Cards */}
         <div className="dashboard-grid">
           <div className="dashboard-card">
-            <div className="dashboard-card-icon">
+            <div className="dashboard-card-icon" style={{ background: '#6c63ff' }}>
               <FaSearch />
             </div>
             <div className="dashboard-card-content">
-              <h3>Available Companies</h3>
-              <p className="dashboard-card-number">{stats.totalCompanies}</p>
-              <p className="dashboard-card-description">Active listings for your profile</p>
+              <div className="dashboard-card-number">{stats.totalCompanies}</div>
+              <div style={{ fontWeight: 600 }}>Available Companies</div>
+              <div className="dashboard-card-description">Active listings for your profile</div>
             </div>
           </div>
-
           <div className="dashboard-card">
-            <div className="dashboard-card-icon">
+            <div className="dashboard-card-icon" style={{ background: '#ff6c9c' }}>
               <FaFileAlt />
             </div>
             <div className="dashboard-card-content">
-              <h3>Applications</h3>
-              <p className="dashboard-card-number">{stats.applicationsCount}</p>
-              <p className="dashboard-card-description">Applications submitted</p>
+              <div className="dashboard-card-number">{stats.applicationsCount}</div>
+              <div style={{ fontWeight: 600 }}>Applications</div>
+              <div className="dashboard-card-description">Applications submitted</div>
             </div>
           </div>
-
           <div className="dashboard-card">
-            <div className="dashboard-card-icon">
+            <div className="dashboard-card-icon" style={{ background: '#3b82f6' }}>
               <FaBookmark />
             </div>
             <div className="dashboard-card-content">
-              <h3>Bookmarked</h3>
-              <p className="dashboard-card-number">{stats.bookmarksCount}</p>
-              <p className="dashboard-card-description">Companies you've saved</p>
+              <div className="dashboard-card-number">{stats.bookmarksCount}</div>
+              <div style={{ fontWeight: 600 }}>Bookmarked</div>
+              <div className="dashboard-card-description">Companies you've saved</div>
             </div>
           </div>
-
           <div className="dashboard-card">
-            <div className="dashboard-card-icon">
+            <div className="dashboard-card-icon" style={{ background: '#10b981' }}>
               <FaUser />
             </div>
             <div className="dashboard-card-content">
-              <h3>Profile Completion</h3>
-              <p className="dashboard-card-number">{stats.profileCompletion}%</p>
-              <p className="dashboard-card-description">Complete your profile</p>
+              <div className="dashboard-card-number">{stats.profileCompletion}%</div>
+              <div style={{ fontWeight: 600 }}>Profile Completion</div>
+              <div className="dashboard-card-description">Complete your profile</div>
             </div>
           </div>
         </div>
 
-        {/* Quick Actions and Content Grid */}
+        {/* Quick Actions */}
+        <div className="quick-actions-grid" style={{ margin: '32px 0' }}>
+          <button className="quick-action-btn" onClick={() => navigate('/companies')}>
+            <FaSearch />
+            <span>Browse Companies</span>
+          </button>
+          <button className="quick-action-btn" onClick={() => navigate('/upload-resume')}>
+            <FaUpload />
+            <span>Upload Resume</span>
+          </button>
+          <button className="quick-action-btn" onClick={() => navigate('/applications')}>
+            <FaFileAlt />
+            <span>View Applications</span>
+          </button>
+          <button className="quick-action-btn" onClick={() => navigate('/bookmarks')}>
+            <FaBookmark />
+            <span>Bookmarked Companies</span>
+          </button>
+        </div>
+
+        {/* Main Content Grid */}
         <div className="dashboard-content-grid">
-          {/* Quick Actions */}
-          <div className="quick-actions-section">
-            <h3>Quick Actions</h3>
-            <div className="quick-actions-grid">
-              <button className="quick-action-btn" onClick={() => navigate('/companies')}>
-                <FaSearch />
-                <span>Browse Companies</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/upload-resume')}>
-                <FaUpload />
-                <span>Upload Resume</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/applications')}>
-                <FaFileAlt />
-                <span>View Applications</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/bookmarks')}>
-                <FaBookmark />
-                <span>Bookmarked Companies</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Upcoming Deadlines */}
-          <div className="deadlines-section">
-            <h3>Upcoming Deadlines</h3>
-            <div className="deadlines-list">
-              {upcomingDeadlines.length > 0 ? (
-                upcomingDeadlines.map(application => (
-                  <div key={application._id} className="deadline-item">
-                    <div className="deadline-info">
-                      <h4>{application.companyId.name}</h4>
-                      <p>{application.companyId.role}</p>
-                      <small>Deadline: {new Date(application.deadline).toLocaleDateString()}</small>
-                    </div>
-                    <div 
-                      className="status-badge"
-                      style={{ backgroundColor: getStatusColor(application.status) }}
-                    >
-                      {getStatusIcon(application.status)}
-                      {application.status}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="no-deadlines">No upcoming deadlines</p>
-              )}
-            </div>
-          </div>
-
           {/* Recent Activities */}
           <div className="activities-section">
-            <h3>Recent Activities</h3>
+            <h3><FaClock style={{ marginRight: 8 }} /> Recent Activities</h3>
             <div className="activities-list">
-              {recentActivities.length > 0 ? (
-                recentActivities.map(activity => (
+              {paginatedActivities.length > 0 ? (
+                paginatedActivities.map(activity => (
                   <div key={activity._id} className="activity-item">
                     <div className="activity-icon">
                       {activity.type === 'application_submitted' && <FaFileAlt />}
@@ -375,6 +357,65 @@ const StudentDashboard = () => {
                 <p className="no-activities">No recent activities</p>
               )}
             </div>
+            {/* Pagination Controls for Activities */}
+            {totalActivitiesPages > 1 && (
+              <div className="pagination-controls">
+                <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.max(1, p - 1))} disabled={activitiesPage === 1}>Previous</button>
+                {Array.from({ length: totalActivitiesPages }, (_, i) => (
+                  <button
+                    key={i}
+                    className={`pagination-btn${activitiesPage === i + 1 ? ' active' : ''}`}
+                    onClick={() => setActivitiesPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.min(totalActivitiesPages, p + 1))} disabled={activitiesPage === totalActivitiesPages}>Next</button>
+              </div>
+            )}
+          </div>
+
+          {/* Upcoming Deadlines */}
+          <div className="deadlines-section">
+            <h3><FaCalendarAlt style={{ marginRight: 8 }} /> Upcoming Deadlines</h3>
+            <div className="deadlines-list">
+              {paginatedDeadlines.length > 0 ? (
+                paginatedDeadlines.map(application => (
+                  <div key={application._id} className="deadline-item">
+                    <div className="deadline-info">
+                      <h4>{application.companyId.name}</h4>
+                      <p>{application.companyId.role}</p>
+                      <small>Deadline: {new Date(application.deadline).toLocaleDateString()}</small>
+                    </div>
+                    <div 
+                      className="status-badge"
+                      style={{ backgroundColor: getStatusColor(application.status) }}
+                    >
+                      {getStatusIcon(application.status)}
+                      {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-deadlines">No upcoming deadlines</p>
+              )}
+            </div>
+            {/* Pagination Controls for Deadlines */}
+            {totalDeadlinesPages > 1 && (
+              <div className="pagination-controls">
+                <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.max(1, p - 1))} disabled={deadlinesPage === 1}>Previous</button>
+                {Array.from({ length: totalDeadlinesPages }, (_, i) => (
+                  <button
+                    key={i}
+                    className={`pagination-btn${deadlinesPage === i + 1 ? ' active' : ''}`}
+                    onClick={() => setDeadlinesPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.min(totalDeadlinesPages, p + 1))} disabled={deadlinesPage === totalDeadlinesPages}>Next</button>
+              </div>
+            )}
           </div>
         </div>
       </main>
