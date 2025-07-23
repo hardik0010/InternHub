@@ -77,9 +77,10 @@ function App() {
             {/* LJIET Exclusive Section */}
             <section className="ljiet-section">
               <div className="ljiet-content">
-                <FaBuilding size={48} className="ljiet-icon" />
+                {/* <FaBuilding size={48} className="ljiet-icon" /> */}
+                <img src="/logo.png" alt="InternHub Logo" style={{ width: '80px'}} />
                 <h2>Exclusively for LJIET</h2>
-                <p>This platform is dedicated to the students and administration of <b>LJ Institute of Engineering & Technology (LJIET)</b> for campus placements and internships.</p>
+                <p>This platform is dedicated to the students and administration of <b>LJ Institute of Engineering & Technology (LJIET)</b> <br></br>for campus placements and internships.</p>
               </div>
             </section>
 

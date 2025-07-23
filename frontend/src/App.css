@@ -133,9 +133,9 @@
   gap: 12px;
 }
 .ljiet-icon {
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   color: #4f8cff;
-  filter: drop-shadow(0 2px 8px rgba(79,140,255,0.18));
+  filter: drop-shadow(0 15px 10px rgba(79,140,255,0.18));
   background: #e3f0ff;
   border-radius: 50%;
   padding: 12px;
