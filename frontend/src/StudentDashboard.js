@@ -203,7 +203,8 @@ const StudentDashboard = () => {
         <div className="dashboard-header-content">
           <div className="dashboard-header-left" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '1.7rem', color: '#2563eb' }}>
-              <FaBriefcase style={{ marginRight: 8, color: '#2563eb', fontSize: '2rem' }} /> InternHub
+              {/* <FaBriefcase style={{ marginRight: 8, color: '#2563eb', fontSize: '2rem' }} />  */}
+              <img src="/image.png" alt="LJIET Logo" style={{ height: 50, width: 50, objectFit: 'contain', marginRight:7}} />InternHub
             </span>
           </div>
           <div className="dashboard-header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
