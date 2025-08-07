@@ -1,0 +1,511 @@
+/* About Us Page Styles */
+.about-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-size: 16px;
+}
+
+/* Import variables from LandingPage.css */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-blue: #3b82f6;
+    --accent-orange: #f59e0b;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-light: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success-green: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Header - Same as LandingPage */
+.about-page .header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.about-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.about-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.about-page .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.about-page .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.about-page .auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.about-page .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.about-page .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.about-page .btn-outline:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-blue);
+}
+
+.about-page .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue);
+}
+
+.about-page .btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.about-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    /* padding: 4rem 0 6rem; */
+    text-align: center;
+}
+
+.about-page .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-page .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.about-page .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Section Headers */
+.about-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.about-page .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.about-page .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Mission Section */
+.about-page .mission-section {
+    /* padding: 1rem 4rem; */
+    background: var(--bg-primary);
+}
+
+.about-page .mission-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.about-page .mission-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.about-page .mission-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.about-page .mission-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-page .mission-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.about-page .mission-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Overview Section */
+.about-page .overview-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.about-page .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.about-page .overview-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.about-page .overview-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.about-page .overview-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 0.75rem;
+}
+
+.about-page .overview-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-page .overview-card li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.about-page .overview-card li:last-child {
+    border-bottom: none;
+}
+
+.about-page .overview-card strong {
+    color: var(--text-primary);
+}
+
+/* Team Section */
+.about-page .team-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.about-page .team-content {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.about-page .team-member {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.about-page .member-avatar {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-page .team-member h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.about-page .member-role {
+    font-size: 1.125rem;
+    color: var(--primary-blue);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.about-page .member-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-page .member-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.about-page .skill-tag {
+    background: var(--bg-secondary);
+    color: var(--primary-blue);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--border-light);
+}
+
+/* Partnership Section */
+.about-page .partnership-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.about-page .partnership-content {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.about-page .institution-info {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.about-page .institution-logo {
+    font-size: 4rem;
+    flex-shrink: 0;
+}
+
+.about-page .institution-details h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.about-page .institution-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.about-page .institution-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.about-page .highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.about-page .highlight-icon {
+    font-size: 1.25rem;
+}
+
+/* Footer */
+.about-page .footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.about-page .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.about-page .footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.about-page .footer-section ul {
+    list-style: none;
+}
+
+.about-page .footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.about-page .footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.about-page .footer-section ul li a:hover {
+    color: white;
+}
+
+.about-page .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .about-page .container {
+        padding: 0 1rem;
+    }
+
+    .about-page .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .about-page .hero-subtitle {
+        font-size: 1.125rem;
+    }
+
+    .about-page .section-title {
+        font-size: 2rem;
+    }
+
+    .about-page .mission-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .about-page .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .about-page .institution-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .about-page .auth-buttons {
+        gap: 0.5rem;
+    }
+
+    .about-page .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-page .hero-section {
+        padding: 3rem 0 4rem;
+    }
+
+    .about-page .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .about-page .team-member {
+        padding: 2rem;
+    }
+
+    .about-page .member-skills {
+        flex-direction: column;
+        align-items: center;
+    }
+} 

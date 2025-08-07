@@ -1,0 +1,838 @@
+/* Documentation Page Styles */
+.documentation-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-size: 16px;
+}
+
+/* Import variables */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-blue: #3b82f6;
+    --accent-orange: #f59e0b;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-light: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success-green: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Header - Same as LandingPage */
+.documentation-page .header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.documentation-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.documentation-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.documentation-page .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.documentation-page .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.documentation-page .auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.documentation-page .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.documentation-page .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.documentation-page .btn-outline:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-blue);
+}
+
+.documentation-page .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue);
+}
+
+.documentation-page .btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.documentation-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.documentation-page .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.documentation-page .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.documentation-page .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Documentation Navigation */
+.documentation-page .doc-nav-section {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 80px;
+    z-index: 99;
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .doc-nav {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.documentation-page .nav-item {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.documentation-page .nav-item:hover {
+    color: var(--primary-blue);
+    background: var(--bg-secondary);
+}
+
+/* Section Headers */
+.documentation-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.documentation-page .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.documentation-page .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Getting Started Section */
+.documentation-page .getting-started-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.documentation-page .doc-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.documentation-page .doc-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .doc-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .doc-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .tech-stack h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.documentation-page .tech-item {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+}
+
+.documentation-page .requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.documentation-page .requirement-item h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .requirement-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documentation-page .requirement-item li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.documentation-page .requirement-item li:last-child {
+    border-bottom: none;
+}
+
+/* User Guides Section */
+.documentation-page .user-guides-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.documentation-page .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.documentation-page .guide-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .guide-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.documentation-page .guide-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.documentation-page .guide-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .guide-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.documentation-page .guide-content h4:first-child {
+    margin-top: 0;
+}
+
+.documentation-page .guide-content ol,
+.documentation-page .guide-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.documentation-page .guide-content li {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* API Documentation Section */
+.documentation-page .api-docs-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.documentation-page .api-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.documentation-page .api-overview {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .api-overview h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .api-overview p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .api-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.documentation-page .info-item {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+}
+
+.documentation-page .info-item strong {
+    color: var(--text-primary);
+}
+
+.documentation-page .info-item code {
+    background: var(--bg-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    color: var(--primary-blue);
+}
+
+.documentation-page .endpoints-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.documentation-page .endpoint-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .endpoint-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.documentation-page .endpoint-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .endpoint-item {
+    margin-bottom: 1rem;
+}
+
+.documentation-page .endpoint-item code {
+    background: var(--bg-secondary);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    color: var(--primary-blue);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.documentation-page .endpoint-item p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Technical Specifications Section */
+.documentation-page .technical-specs-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.documentation-page .specs-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.documentation-page .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.documentation-page .spec-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .spec-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.documentation-page .spec-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .spec-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documentation-page .spec-card li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.documentation-page .spec-card li:last-child {
+    border-bottom: none;
+}
+
+.documentation-page .spec-card strong {
+    color: var(--text-primary);
+}
+
+.documentation-page .schema-item {
+    margin-bottom: 2rem;
+}
+
+.documentation-page .schema-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+}
+
+.documentation-page .schema-item pre {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+}
+
+.documentation-page .schema-item code {
+    font-family: 'Courier New', monospace;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Deployment Section */
+.documentation-page .deployment-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.documentation-page .deployment-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.documentation-page .deployment-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.documentation-page .step-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .step-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.documentation-page .step-number {
+    background: var(--primary-blue);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.documentation-page .step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .step-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.documentation-page .step-content h4:first-child {
+    margin-top: 0;
+}
+
+.documentation-page .step-content ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.documentation-page .step-content li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.documentation-page .step-content li:last-child {
+    border-bottom: none;
+}
+
+.documentation-page .step-content pre {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .step-content code {
+    font-family: 'Courier New', monospace;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Troubleshooting Section */
+.documentation-page .troubleshooting-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.documentation-page .troubleshooting-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.documentation-page .issue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.documentation-page .issue-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.documentation-page .issue-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.documentation-page .issue-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.documentation-page .issue-solution h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.documentation-page .issue-solution p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.documentation-page .issue-solution ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documentation-page .issue-solution li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.documentation-page .issue-solution li:last-child {
+    border-bottom: none;
+}
+
+/* Footer */
+.documentation-page .footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.documentation-page .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.documentation-page .footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.documentation-page .footer-section ul {
+    list-style: none;
+}
+
+.documentation-page .footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.documentation-page .footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.documentation-page .footer-section ul li a:hover {
+    color: white;
+}
+
+.documentation-page .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .documentation-page .container {
+        padding: 0 1rem;
+    }
+
+    .documentation-page .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .documentation-page .hero-subtitle {
+        font-size: 1.125rem;
+    }
+
+    .documentation-page .section-title {
+        font-size: 2rem;
+    }
+
+    .documentation-page .doc-nav {
+        gap: 1rem;
+    }
+
+    .documentation-page .guides-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .documentation-page .endpoints-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .documentation-page .specs-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .documentation-page .deployment-steps {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .documentation-page .issue-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .documentation-page .auth-buttons {
+        gap: 0.5rem;
+    }
+
+    .documentation-page .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .documentation-page .hero-section {
+        padding: 3rem 0 4rem;
+    }
+
+    .documentation-page .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .documentation-page .doc-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .documentation-page .tech-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .documentation-page .requirements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .documentation-page .api-info {
+        grid-template-columns: 1fr;
+    }
+} 

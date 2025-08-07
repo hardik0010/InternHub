@@ -295,7 +295,7 @@ function Register() {
                 required
               />
               <span className="checkmark"></span>
-              I accept the <Link to="/terms" target="_blank">Terms and Conditions</Link> and <Link to="/privacy" target="_blank">Privacy Policy</Link> <span className="required">*</span>
+              I accept the <Link to="/terms-conditions" target="_blank">Terms and Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link> <span className="required">*</span>
             </label>
           </div>
         </div>

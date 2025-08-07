@@ -1,0 +1,643 @@
+/* Contact Page Styles */
+.contact-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-size: 16px;
+}
+
+/* Import variables */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-blue: #3b82f6;
+    --accent-orange: #f59e0b;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-light: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success-green: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Header - Same as LandingPage */
+.contact-page .header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.contact-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.contact-page .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.contact-page .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.contact-page .auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.contact-page .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.contact-page .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.contact-page .btn-outline:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-blue);
+}
+
+.contact-page .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue);
+}
+
+.contact-page .btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.contact-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.contact-page .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-page .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.contact-page .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Section Headers */
+.contact-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contact-page .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.contact-page .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Contact Info Section */
+.contact-page .contact-info-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.contact-page .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.contact-page .contact-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-page .contact-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.contact-page .contact-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.contact-page .contact-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.contact-page .contact-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.contact-page .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-page .contact-details a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.contact-page .contact-details a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.contact-page .contact-details p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Institution Section */
+.contact-page .institution-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.contact-page .institution-contact {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.contact-page .institution-info {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.contact-page .institution-logo {
+    font-size: 4rem;
+    flex-shrink: 0;
+}
+
+.contact-page .institution-details h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.contact-page .institution-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.contact-page .institution-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-page .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-page .contact-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.contact-page .contact-value {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.contact-page .contact-value a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.contact-page .contact-value a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.contact-page .contact-value p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Developer Section */
+.contact-page .developer-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.contact-page .developer-contact {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.contact-page .developer-info {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.contact-page .developer-avatar {
+    font-size: 4rem;
+    flex-shrink: 0;
+}
+
+.contact-page .developer-details h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.contact-page .developer-role {
+    font-size: 1.125rem;
+    color: var(--primary-blue);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.contact-page .developer-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.contact-page .developer-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-page .developer-skills h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.contact-page .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.contact-page .skill-tag {
+    background: var(--bg-secondary);
+    color: var(--primary-blue);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--border-light);
+}
+
+/* Contact Form Section */
+.contact-page .contact-form-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.contact-page .contact-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.contact-page .contact-form {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+}
+
+.contact-page .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-page .form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.contact-page .form-group input,
+.contact-page .form-group select,
+.contact-page .form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--bg-primary);
+}
+
+.contact-page .form-group input:focus,
+.contact-page .form-group select:focus,
+.contact-page .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.contact-page .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-page .form-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.contact-page .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* FAQ Section */
+.contact-page .faq-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.contact-page .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.contact-page .faq-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-page .faq-item:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.contact-page .faq-item h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.contact-page .faq-item p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Footer */
+.contact-page .footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.contact-page .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contact-page .footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.contact-page .footer-section ul {
+    list-style: none;
+}
+
+.contact-page .footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.contact-page .footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.contact-page .footer-section ul li a:hover {
+    color: white;
+}
+
+.contact-page .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .contact-page .container {
+        padding: 0 1rem;
+    }
+
+    .contact-page .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .contact-page .hero-subtitle {
+        font-size: 1.125rem;
+    }
+
+    .contact-page .section-title {
+        font-size: 2rem;
+    }
+
+    .contact-page .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .contact-page .institution-info,
+    .contact-page .developer-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .contact-page .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .contact-page .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .contact-page .auth-buttons {
+        gap: 0.5rem;
+    }
+
+    .contact-page .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-page .hero-section {
+        padding: 3rem 0 4rem;
+    }
+
+    .contact-page .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .contact-page .contact-form {
+        padding: 2rem;
+    }
+
+    .contact-page .institution-contact-grid,
+    .contact-page .developer-contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .contact-page .skills-grid {
+        justify-content: center;
+    }
+} 

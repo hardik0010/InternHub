@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   cgpa: { type: Number, required: true },
   password: { type: String, required: true },
   profilePicUrl: { type: String },
+  profilePicPublicId: { type: String },
   isVerified: { type: Boolean, default: false },
   verificationToken: { type: String },
   resetPasswordToken: { type: String },

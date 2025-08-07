@@ -253,6 +253,63 @@ router.post('/reset-password/:token', async (req, res) => {
   }
 });
 
+// POST /api/users/change-password - Change user password
+router.post('/change-password', authenticateToken, async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ error: 'Old and new password are required.' });
+    }
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) return res.status(400).json({ error: 'Current password is incorrect.' });
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Password changed successfully.' });
+  } catch (error) {
+    console.error('Change password error:', error);
+    res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
+// POST /api/users/profile-pic - Upload or change profile picture
+router.post('/profile-pic', authenticateToken, upload.single('profilePic'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    // Delete old profile picture from Cloudinary if it exists
+    if (user.profilePicPublicId) {
+      try {
+        await cloudinary.uploader.destroy(user.profilePicPublicId);
+      } catch (err) {
+        console.error('Failed to delete old profile picture from Cloudinary:', err);
+      }
+    }
+    // Upload new profile picture to Cloudinary
+    const cloudinaryResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
+      stream.end(req.file.buffer);
+    });
+    user.profilePicUrl = cloudinaryResult.secure_url;
+    user.profilePicPublicId = cloudinaryResult.public_id;
+    await user.save();
+    const updatedUser = user.toObject();
+    delete updatedUser.password;
+    delete updatedUser.verificationToken;
+    delete updatedUser.resetPasswordToken;
+    delete updatedUser.resetPasswordExpires;
+    res.json({ user: updatedUser });
+  } catch (error) {
+    console.error('Profile picture upload error:', error);
+    res.status(500).json({ error: 'Failed to update profile picture' });
+  }
+});
+
 // Get user profile
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
@@ -261,6 +318,27 @@ router.get('/profile', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Profile fetch error:', error);
     res.status(500).json({ error: 'Failed to fetch profile' });
+  }
+});
+
+// PATCH /api/users/profile - Update user profile
+router.patch('/profile', authenticateToken, async (req, res) => {
+  try {
+    const allowedFields = ['name', 'phone', 'branch', 'batch', 'cgpa'];
+    const updates = {};
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) updates[field] = req.body[field];
+    });
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).select('-password -verificationToken -resetPasswordToken -resetPasswordExpires');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ user });
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
   }
 });
 

@@ -21,6 +21,7 @@ import {
 import io from 'socket.io-client';
 import axios from 'axios';
 import './App.css';
+import ProfileMenu from './ProfileMenu';
 
 const ITEMS_PER_PAGE = 3;
 
@@ -43,6 +44,9 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
   const [activitiesPage, setActivitiesPage] = useState(1);
   const [deadlinesPage, setDeadlinesPage] = useState(1);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('user_token');
@@ -162,6 +166,45 @@ const StudentDashboard = () => {
     }
   };
 
+  const handleEditProfile = async (updatedData) => {
+    try {
+      setErrorMsg('');
+      setSuccessMsg('');
+      const res = await axios.patch('/api/users/profile', updatedData);
+      setUser(res.data.user);
+      setSuccessMsg('Profile updated successfully!');
+    } catch (err) {
+      setErrorMsg(err.response?.data?.error || 'Failed to update profile.');
+    }
+  };
+
+  const handleChangePassword = async (passwordData) => {
+    try {
+      setErrorMsg('');
+      setSuccessMsg('');
+      await axios.post('/api/users/change-password', passwordData);
+      setSuccessMsg('Password changed successfully!');
+    } catch (err) {
+      setErrorMsg(err.response?.data?.error || 'Failed to change password.');
+    }
+  };
+
+  const handleProfilePicChange = async (file) => {
+    try {
+      setErrorMsg('');
+      setSuccessMsg('');
+      const formData = new FormData();
+      formData.append('profilePic', file);
+      const res = await axios.post('/api/users/profile-pic', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setUser(res.data.user);
+      setSuccessMsg('Profile picture updated!');
+    } catch (err) {
+      setErrorMsg(err.response?.data?.error || 'Failed to update profile picture.');
+    }
+  };
+
   // Pagination logic
   const paginatedActivities = recentActivities.slice((activitiesPage - 1) * ITEMS_PER_PAGE, activitiesPage * ITEMS_PER_PAGE);
   const totalActivitiesPages = Math.ceil(recentActivities.length / ITEMS_PER_PAGE);
@@ -200,14 +243,13 @@ const StudentDashboard = () => {
     <div className="app-container">
       {/* Header */}
       <header className="dashboard-header">
-        <div className="dashboard-header-content">
+        <div className="dashboard-header-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem' }}>
           <div className="dashboard-header-left" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '1.7rem', color: '#2563eb' }}>
-              {/* <FaBriefcase style={{ marginRight: 8, color: '#2563eb', fontSize: '2rem' }} />  */}
               <img src="/image.png" alt="LJIET Logo" style={{ height: 50, width: 50, objectFit: 'contain', marginRight:7}} />InternHub
             </span>
           </div>
-          <div className="dashboard-header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="dashboard-header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative' }}>
             <span style={{ color: '#2c3e50', fontSize: '1.05rem', marginRight: 8 }}>
               Welcome back, <b style={{ color: '#222', fontWeight: 700 }}>{user?.name}</b>
             </span>
@@ -259,9 +301,28 @@ const StudentDashboard = () => {
                 </div>
               )}
             </div>
-            <button className="btn primary" onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#ef4444', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: '1.05rem', padding: '8px 18px' }}>
-              <FaSignOutAlt /> Logout
+            <button
+              className="btn notification-btn"
+              style={{ borderRadius: '50%', width: 40, height: 40, padding: 0, border: '2px solid #2563eb', background: '#fff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
+              onClick={() => setShowProfileMenu((prev) => !prev)}
+              aria-label="Profile"
+            >
+              {user?.profilePicUrl ? (
+                <img src={user.profilePicUrl} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+              ) : (
+                <FaUser style={{ fontSize: '1.5rem', color: '#2563eb' }} />
+              )}
             </button>
+            {showProfileMenu && (
+              <ProfileMenu
+                user={user}
+                onLogout={handleLogout}
+                onEdit={handleEditProfile}
+                onChangePassword={handleChangePassword}
+                onProfilePicChange={handleProfilePicChange}
+                onClose={() => setShowProfileMenu(false)}
+              />
+            )}
           </div>
         </div>
       </header>
@@ -336,90 +397,97 @@ const StudentDashboard = () => {
         <div className="dashboard-content-grid">
           {/* Recent Activities */}
           <div className="activities-section">
-            <h3><FaClock style={{ marginRight: 8 }} /> Recent Activities</h3>
-            <div className="activities-list">
-              {paginatedActivities.length > 0 ? (
-                paginatedActivities.map(activity => (
-                  <div key={activity._id} className="activity-item">
-                    <div className="activity-icon">
-                      {activity.type === 'application_submitted' && <FaFileAlt />}
-                      {activity.type === 'bookmark_added' && <FaBookmark />}
-                      {activity.type === 'profile_updated' && <FaUser />}
-                      {activity.type === 'resume_uploaded' && <FaUpload />}
+            <div style={{display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
+              <h3><FaClock style={{ marginRight: 8 }} /> Recent Activities</h3>
+              <div className="activities-list" style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                {paginatedActivities.length > 0 ? (
+                  paginatedActivities.map(activity => (
+                    <div key={activity._id} className="activity-item">
+                      <div className="activity-icon">
+                        {activity.type === 'application_submitted' && <FaFileAlt />}
+                        {activity.type === 'bookmark_added' && <FaBookmark />}
+                        {activity.type === 'profile_updated' && <FaUser />}
+                        {activity.type === 'resume_uploaded' && <FaUpload />}
+                      </div>
+                      <div className="activity-content">
+                        <h4>{activity.title}</h4>
+                        <p>{activity.description}</p>
+                        <small>{new Date(activity.createdAt).toLocaleDateString()}</small>
+                      </div>
                     </div>
-                    <div className="activity-content">
-                      <h4>{activity.title}</h4>
-                      <p>{activity.description}</p>
-                      <small>{new Date(activity.createdAt).toLocaleDateString()}</small>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="no-activities">No recent activities</p>
+                  ))
+                ) : (
+                  <p className="no-activities">No recent activities</p>
+                )}
+              </div>
+              {/* Pagination Controls for Activities */}
+              {totalActivitiesPages > 1 && (
+                <div className="pagination-controls">
+                  <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.max(1, p - 1))} disabled={activitiesPage === 1}>Previous</button>
+                  {Array.from({ length: totalActivitiesPages }, (_, i) => (
+                    <button
+                      key={i}
+                      className={`pagination-btn${activitiesPage === i + 1 ? ' active' : ''}`}
+                      onClick={() => setActivitiesPage(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                  <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.min(totalActivitiesPages, p + 1))} disabled={activitiesPage === totalActivitiesPages}>Next</button>
+                </div>
               )}
             </div>
-            {/* Pagination Controls for Activities */}
-            {totalActivitiesPages > 1 && (
-              <div className="pagination-controls">
-                <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.max(1, p - 1))} disabled={activitiesPage === 1}>Previous</button>
-                {Array.from({ length: totalActivitiesPages }, (_, i) => (
-                  <button
-                    key={i}
-                    className={`pagination-btn${activitiesPage === i + 1 ? ' active' : ''}`}
-                    onClick={() => setActivitiesPage(i + 1)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-                <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.min(totalActivitiesPages, p + 1))} disabled={activitiesPage === totalActivitiesPages}>Next</button>
-              </div>
-            )}
           </div>
 
           {/* Upcoming Deadlines */}
           <div className="deadlines-section">
-            <h3><FaCalendarAlt style={{ marginRight: 8 }} /> Upcoming Deadlines</h3>
-            <div className="deadlines-list">
-              {paginatedDeadlines.length > 0 ? (
-                paginatedDeadlines.map(application => (
-                  <div key={application._id} className="deadline-item">
-                    <div className="deadline-info">
-                      <h4>{application.companyId.name}</h4>
-                      <p>{application.companyId.role}</p>
-                      <small>Deadline: {new Date(application.deadline).toLocaleDateString()}</small>
+            <div style={{display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
+              <h3><FaCalendarAlt style={{ marginRight: 8 }} /> Upcoming Deadlines</h3>
+              <div className="deadlines-list" style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                {paginatedDeadlines.length > 0 ? (
+                  paginatedDeadlines.map(application => (
+                    <div key={application._id} className="deadline-item">
+                      <div className="deadline-info">
+                        <h4>{application.companyId.name}</h4>
+                        <p>{application.companyId.role}</p>
+                        <small>Deadline: {new Date(application.deadline).toLocaleDateString()}</small>
+                      </div>
+                      <div 
+                        className="status-badge"
+                        style={{ backgroundColor: getStatusColor(application.status) }}
+                      >
+                        {getStatusIcon(application.status)}
+                        {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                      </div>
                     </div>
-                    <div 
-                      className="status-badge"
-                      style={{ backgroundColor: getStatusColor(application.status) }}
+                  ))
+                ) : (
+                  <p className="no-deadlines">No upcoming deadlines</p>
+                )}
+              </div>
+              {/* Pagination Controls for Deadlines */}
+              {totalDeadlinesPages > 1 && (
+                <div className="pagination-controls">
+                  <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.max(1, p - 1))} disabled={deadlinesPage === 1}>Previous</button>
+                  {Array.from({ length: totalDeadlinesPages }, (_, i) => (
+                    <button
+                      key={i}
+                      className={`pagination-btn${deadlinesPage === i + 1 ? ' active' : ''}`}
+                      onClick={() => setDeadlinesPage(i + 1)}
                     >
-                      {getStatusIcon(application.status)}
-                      {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="no-deadlines">No upcoming deadlines</p>
+                      {i + 1}
+                    </button>
+                  ))}
+                  <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.min(totalDeadlinesPages, p + 1))} disabled={deadlinesPage === totalDeadlinesPages}>Next</button>
+                </div>
               )}
             </div>
-            {/* Pagination Controls for Deadlines */}
-            {totalDeadlinesPages > 1 && (
-              <div className="pagination-controls">
-                <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.max(1, p - 1))} disabled={deadlinesPage === 1}>Previous</button>
-                {Array.from({ length: totalDeadlinesPages }, (_, i) => (
-                  <button
-                    key={i}
-                    className={`pagination-btn${deadlinesPage === i + 1 ? ' active' : ''}`}
-                    onClick={() => setDeadlinesPage(i + 1)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-                <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.min(totalDeadlinesPages, p + 1))} disabled={deadlinesPage === totalDeadlinesPages}>Next</button>
-              </div>
-            )}
           </div>
         </div>
       </main>
+      {/* Show global success/error messages */}
+      {successMsg && <div className="success-msg" style={{ position: 'fixed', top: 80, right: 24, zIndex: 3000 }}>{successMsg}</div>}
+      {errorMsg && <div className="error-msg" style={{ position: 'fixed', top: 80, right: 24, zIndex: 3000 }}>{errorMsg}</div>}
     </div>
   );
 };

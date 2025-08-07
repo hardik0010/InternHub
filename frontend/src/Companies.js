@@ -9,10 +9,51 @@ import {
   FaGraduationCap,
   FaStar,
   FaSpinner,
-  FaArrowLeft
+  FaArrowLeft,
+  FaBuilding,
+  FaBriefcase,
+  FaUsers,
+  FaGlobe,
+  FaCheck,
+  FaRocket
 } from 'react-icons/fa';
 import axios from 'axios';
 import './App.css';
+
+// Loading Skeleton Component
+const CompanyCardSkeleton = () => (
+  <div className="company-card skeleton-card">
+    <div className="company-card-header">
+      <div className="company-logo loading-skeleton" style={{ width: '60px', height: '60px', borderRadius: '1rem' }}></div>
+      <div className="company-title" style={{ flex: 1 }}>
+        <div className="loading-skeleton" style={{ height: '24px', width: '80%', marginBottom: '8px' }}></div>
+        <div className="loading-skeleton" style={{ height: '20px', width: '60%' }}></div>
+      </div>
+      <div className="loading-skeleton" style={{ width: '32px', height: '32px', borderRadius: '50%' }}></div>
+    </div>
+    
+    <div className="company-role-section">
+      <div className="loading-skeleton" style={{ height: '20px', width: '70%', marginBottom: '12px' }}></div>
+      <div className="loading-skeleton" style={{ height: '16px', width: '100%', marginBottom: '8px' }}></div>
+      <div className="loading-skeleton" style={{ height: '16px', width: '90%' }}></div>
+    </div>
+
+    <div className="company-details">
+      {[1, 2, 3].map(i => (
+        <div key={i} className="detail-item">
+          <div className="loading-skeleton" style={{ width: '16px', height: '16px', borderRadius: '50%' }}></div>
+          <div className="loading-skeleton" style={{ height: '16px', width: '60px' }}></div>
+          <div className="loading-skeleton" style={{ height: '16px', width: '40%' }}></div>
+        </div>
+      ))}
+    </div>
+
+    <div className="company-actions">
+      <div className="loading-skeleton" style={{ height: '40px', flex: 1 }}></div>
+      <div className="loading-skeleton" style={{ height: '40px', flex: 1 }}></div>
+    </div>
+  </div>
+);
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
@@ -22,6 +63,7 @@ const Companies = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [bookmarks, setBookmarks] = useState([]);
   const [error, setError] = useState(null);
+  const [filterType, setFilterType] = useState('all');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,17 +76,18 @@ const Companies = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     fetchCompanies();
     fetchBookmarks();
-  }, [navigate, currentPage, searchTerm]);
+  }, [navigate, currentPage, searchTerm, filterType]);
 
   const fetchCompanies = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/student/companies?page=${currentPage}&search=${searchTerm}`);
+      setError(null);
+      const response = await axios.get(`/api/student/companies?page=${currentPage}&search=${searchTerm}&filter=${filterType}`);
       setCompanies(response.data.companies);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching companies:', error);
-      setError('Failed to load companies');
+      setError('Failed to load companies. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -90,170 +133,338 @@ const Companies = () => {
     fetchCompanies();
   };
 
-  if (loading) {
+  const handleFilterChange = (newFilter) => {
+    setFilterType(newFilter);
+    setCurrentPage(1);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setFilterType('all');
+    setCurrentPage(1);
+  };
+
+  // Render loading skeleton
+  if (loading && companies.length === 0) {
     return (
-      <div className="auth-container">
-        <div className="verification-content">
-          <FaSpinner className="verification-icon spinning" />
-          <h2>Loading Companies...</h2>
-          <p>Please wait while we fetch the latest company listings.</p>
+      <div className="app-container new-design-bg">
+        <div className="new-header">
+          <button 
+            className="back-button"
+            onClick={() => navigate('/student/dashboard')}
+          >
+            <FaArrowLeft />
+          </button>
+        </div>
+
+        <div className="search-filter-container">
+          <div className="search-container">
+            <div className="search-form">
+              <div className="search-input-wrapper">
+                <FaSearch className="search-icon" />
+                <div className="loading-skeleton" style={{ height: '48px', width: '100%', borderRadius: '0.75rem' }}></div>
+              </div>
+              <div className="loading-skeleton" style={{ height: '48px', width: '120px', borderRadius: '0.75rem' }}></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="companies-container">
+          <div className="companies-grid">
+            {[1, 2, 3].map(i => (
+              <CompanyCardSkeleton key={i} />
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container">
-      {/* Header */}
-      <header className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-header-left">
-            <button 
-              className="btn secondary back-btn"
-              onClick={() => navigate('/student/dashboard')}
-            >
-              <FaArrowLeft />
-              Back to Dashboard
-            </button>
-            <h1>Browse Companies</h1>
-            <p>Find and apply to your dream companies</p>
-          </div>
-        </div>
-      </header>
+    <div className="app-container new-design-bg">
+      {/* New Header */}
+      <div className="new-header">
+        <button 
+          className="back-button"
+          onClick={() => navigate('/student/dashboard')}
+        >
+          <FaArrowLeft />
+        </button>
+      </div>
 
-      {/* Main Content */}
-      <main className="dashboard-main">
-        {/* Search Bar */}
-        <div className="search-section">
+      {/* Search and Filter Section */}
+      <div className="search-filter-container">
+        <div className="search-container">
           <form onSubmit={handleSearch} className="search-form">
             <div className="search-input-wrapper">
               <FaSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search companies or roles..."
+                placeholder="Search companies, roles, or skills..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
               />
             </div>
-            <button type="submit" className="btn primary">
+            <button type="submit" className="search-btn">
               Search
             </button>
           </form>
         </div>
-
-        {error && (
-          <div className="error-message">
-            {error}
+        
+        <div className="filter-container">
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('all')}
+            >
+              All Companies
+            </button>
+            <button 
+              className={`filter-btn ${filterType === 'bookmarked' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('bookmarked')}
+            >
+              <FaRocket />
+              Bookmarked
+            </button>
+            <button 
+              className={`filter-btn ${filterType === 'applied' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('applied')}
+            >
+              <FaCheck />
+              Applied
+            </button>
           </div>
-        )}
-
-        {/* Companies Grid */}
-        <div className="companies-grid">
-          {companies.map(company => (
-            <div key={company._id} className="company-card">
-              <div className="company-header">
-                <div className="company-info">
-                  <h3>{company.name}</h3>
-                  <p className="company-role">{company.role}</p>
-                </div>
-                <button
-                  className="bookmark-btn"
-                  onClick={() => toggleBookmark(company._id)}
-                >
-                  {bookmarks.includes(company._id) ? (
-                    <FaBookmark className="bookmarked" />
-                  ) : (
-                    <FaRegBookmark />
-                  )}
-                </button>
-              </div>
-
-              <div className="company-details">
-                <div className="detail-item">
-                  <FaCalendarAlt />
-                  <span>Visit Date: {new Date(company.visitDate).toLocaleDateString()}</span>
-                </div>
-                
-                {company.eligibility && (
-                  <div className="detail-item">
-                    <FaGraduationCap />
-                    <span>CGPA: {company.eligibility.cgpa || 'Not specified'}</span>
-                  </div>
-                )}
-
-                {company.eligibility?.branch && company.eligibility.branch.length > 0 && (
-                  <div className="detail-item">
-                    <FaMapMarkerAlt />
-                    <span>Branches: {company.eligibility.branch.join(', ')}</span>
-                  </div>
-                )}
-              </div>
-
-              <p className="company-description">
-                {company.description.length > 150 
-                  ? `${company.description.substring(0, 150)}...` 
-                  : company.description
-                }
-              </p>
-
-              <div className="company-actions">
-                {company.hasApplied ? (
-                  <button className="btn secondary" disabled>
-                    Already Applied
-                  </button>
-                ) : (
-                  <button 
-                    className="btn primary"
-                    onClick={() => applyToCompany(company._id)}
-                  >
-                    Apply Now
-                  </button>
-                )}
-                
-                <button 
-                  className="btn secondary"
-                  onClick={() => navigate(`/company/${company._id}`)}
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
+      </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="pagination">
-            <button
-              className="btn secondary"
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            
-            <span className="page-info">
-              Page {currentPage} of {totalPages}
-            </span>
-            
-            <button
-              className="btn secondary"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
-        )}
+      {error && (
+        <div className="error-message">
+          <FaStar />
+          {error}
+        </div>
+      )}
 
-        {companies.length === 0 && !loading && (
-          <div className="no-companies">
-            <h3>No companies found</h3>
-            <p>Try adjusting your search criteria or check back later for new listings.</p>
+      {/* Companies Grid */}
+      <div className="companies-container">
+        <div className="companies-grid">
+          {loading ? (
+            <>
+              {companies.map(company => (
+                <div key={company._id} className="company-card">
+                  <div className="company-card-header">
+                    <div className="company-logo">
+                      {company.name === 'TCS' ? 'TCS' : company.name === 'Wipro' ? 'W' : 'MS'}
+                    </div>
+                    <div className="company-title">
+                      <h3>{company.name}</h3>
+                      <span className="company-category">TECHNOLOGY</span>
+                    </div>
+                    <button
+                      className={`bookmark-btn ${bookmarks.includes(company._id) ? 'bookmarked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleBookmark(company._id);
+                      }}
+                      title={bookmarks.includes(company._id) ? 'Remove Bookmark' : 'Add Bookmark'}
+                    >
+                      {bookmarks.includes(company._id) ? <FaBookmark /> : <FaRegBookmark />}
+                    </button>
+                  </div>
+                  
+                  <div className="company-role-section">
+                    <h4 className="role-title">{company.role}</h4>
+                    <p className="role-description">
+                      {company.description || 'Join our dynamic team to develop cutting-edge solutions and gain hands-on experience in modern technologies.'}
+                    </p>
+                  </div>
+
+                  <div className="company-details">
+                    <div className="detail-item">
+                      <FaCalendarAlt className="detail-icon" />
+                      <span className="detail-label">Visit:</span>
+                      <span className="detail-value">
+                        {company.visitDate ? new Date(company.visitDate).toLocaleDateString() : 'TBD'}
+                      </span>
+                    </div>
+                    <div className="detail-item">
+                      <FaMapMarkerAlt className="detail-icon" />
+                      <span className="detail-label">All Branches</span>
+                    </div>
+                    <div className="detail-item">
+                      <FaGraduationCap className="detail-icon" />
+                      <span className="detail-label">CGPA:</span>
+                      <span className="detail-value">{company.cgpa || 'Not specified'}</span>
+                    </div>
+                  </div>
+
+                  <div className="company-tags">
+                    <span className="tag">Internship</span>
+                    <span className="tag">Technology</span>
+                  </div>
+
+                  <div className="company-actions">
+                    {company.hasApplied ? (
+                      <button className="btn applied-btn" disabled>
+                        <FaCheck />
+                        Already Applied
+                      </button>
+                    ) : (
+                      <button 
+                        className="btn apply-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          applyToCompany(company._id);
+                        }}
+                      >
+                        Apply Now
+                      </button>
+                    )}
+                    <button 
+                      className="btn view-btn"
+                      onClick={() => navigate(`/company/${company._id}`)}
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {[1, 2, 3].map(i => (
+                <CompanyCardSkeleton key={`skeleton-${i}`} />
+              ))}
+            </>
+          ) : (
+            companies.map(company => (
+              <div key={company._id} className="company-card">
+                <div className="company-card-header">
+                  <div className="company-logo">
+                    {company.name === 'TCS' ? 'TCS' : company.name === 'Wipro' ? 'W' : 'MS'}
+                  </div>
+                  <div className="company-title">
+                    <h3>{company.name}</h3>
+                    <span className="company-category">TECHNOLOGY</span>
+                  </div>
+                  <button
+                    className={`bookmark-btn ${bookmarks.includes(company._id) ? 'bookmarked' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleBookmark(company._id);
+                    }}
+                    title={bookmarks.includes(company._id) ? 'Remove Bookmark' : 'Add Bookmark'}
+                  >
+                    {bookmarks.includes(company._id) ? <FaBookmark /> : <FaRegBookmark />}
+                  </button>
+                </div>
+                
+                <div className="company-role-section">
+                  <h4 className="role-title">{company.role}</h4>
+                  <p className="role-description">
+                    {company.description || 'Join our dynamic team to develop cutting-edge solutions and gain hands-on experience in modern technologies.'}
+                  </p>
+                </div>
+
+                <div className="company-details">
+                  <div className="detail-item">
+                    <FaCalendarAlt className="detail-icon" />
+                    <span className="detail-label">Visit:</span>
+                    <span className="detail-value">
+                      {company.visitDate ? new Date(company.visitDate).toLocaleDateString() : 'TBD'}
+                    </span>
+                  </div>
+                  <div className="detail-item">
+                    <FaMapMarkerAlt className="detail-icon" />
+                    <span className="detail-label">All Branches</span>
+                  </div>
+                  <div className="detail-item">
+                    <FaGraduationCap className="detail-icon" />
+                    <span className="detail-label">CGPA:</span>
+                    <span className="detail-value">{company.cgpa || 'Not specified'}</span>
+                  </div>
+                </div>
+
+                <div className="company-tags">
+                  <span className="tag">Internship</span>
+                  <span className="tag">Technology</span>
+                </div>
+
+                <div className="company-actions">
+                  {company.hasApplied ? (
+                    <button className="btn applied-btn" disabled>
+                      <FaCheck />
+                      Already Applied
+                    </button>
+                  ) : (
+                    <button 
+                      className="btn apply-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        applyToCompany(company._id);
+                      }}
+                    >
+                      Apply Now
+                    </button>
+                  )}
+                  <button 
+                    className="btn view-btn"
+                    onClick={() => navigate(`/company/${company._id}`)}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            className="btn pagination-btn"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <FaArrowLeft />
+            Previous
+          </button>
+          <div className="page-numbers">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                className={`page-number ${currentPage === page ? 'active' : ''}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
           </div>
-        )}
-      </main>
+          <button
+            className="btn pagination-btn"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+            <FaArrowLeft style={{ transform: 'rotate(180deg)' }} />
+          </button>
+        </div>
+      )}
+
+      {companies.length === 0 && !loading && (
+        <div className="no-companies">
+          <div className="no-companies-icon">
+            <FaBuilding />
+          </div>
+          <h3>No companies found</h3>
+          <p>Try adjusting your search criteria or check back later for new listings.</p>
+          <button 
+            className="btn primary"
+            onClick={clearFilters}
+          >
+            Clear Filters
+          </button>
+        </div>
+      )}
     </div>
   );
 };

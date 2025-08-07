@@ -1,0 +1,683 @@
+/* Help Center Page Styles */
+.help-center-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-size: 16px;
+}
+
+/* Import variables */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-blue: #3b82f6;
+    --accent-orange: #f59e0b;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-light: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success-green: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Header - Same as LandingPage */
+.help-center-page .header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.help-center-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.help-center-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.help-center-page .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.help-center-page .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.help-center-page .auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.help-center-page .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.help-center-page .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.help-center-page .btn-outline:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-blue);
+}
+
+.help-center-page .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue);
+}
+
+.help-center-page .btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.help-center-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.help-center-page .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.help-center-page .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.help-center-page .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Section Headers */
+.help-center-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.help-center-page .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.help-center-page .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Help Categories */
+.help-center-page .help-categories {
+    padding: 4rem 0;
+    background: var(--bg-primary);
+}
+
+.help-center-page .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.help-center-page .category-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .category-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.help-center-page .category-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.help-center-page .category-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.help-center-page .category-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.help-center-page .category-link {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.help-center-page .category-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* LJIET Info Section */
+.help-center-page .ljiet-info-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.help-center-page .ljiet-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.help-center-page .ljiet-overview {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-md);
+}
+
+.help-center-page .institution-logo {
+    font-size: 4rem;
+    flex-shrink: 0;
+}
+
+.help-center-page .institution-details h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.help-center-page .institution-details p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.help-center-page .institution-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.help-center-page .highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.help-center-page .highlight-icon {
+    font-size: 1.25rem;
+}
+
+.help-center-page .academic-programs h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.help-center-page .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.help-center-page .program-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .program-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.help-center-page .program-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+}
+
+.help-center-page .program-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Student Help Section */
+.help-center-page .student-help-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.help-center-page .help-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.help-center-page .help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.help-center-page .help-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .help-item:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.help-center-page .help-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.help-center-page .help-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.help-center-page .help-item li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.help-center-page .help-item li:last-child {
+    border-bottom: none;
+}
+
+.help-center-page .help-item strong {
+    color: var(--text-primary);
+}
+
+/* Company Help Section */
+.help-center-page .company-help-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+/* Technical Help Section */
+.help-center-page .technical-help-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.help-center-page .support-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.help-center-page .support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.help-center-page .support-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .support-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.help-center-page .support-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.help-center-page .support-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.help-center-page .support-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.help-center-page .support-card li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.help-center-page .support-card li:last-child {
+    border-bottom: none;
+}
+
+/* FAQ Section */
+.help-center-page .faq-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.help-center-page .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.help-center-page .faq-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .faq-item:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.help-center-page .faq-item h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.help-center-page .faq-item p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Contact Support Section */
+.help-center-page .contact-support-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.help-center-page .support-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.help-center-page .support-option {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-center-page .support-option:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.help-center-page .option-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.help-center-page .support-option h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.help-center-page .support-option p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.help-center-page .support-link {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.help-center-page .support-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Footer */
+.help-center-page .footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.help-center-page .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.help-center-page .footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.help-center-page .footer-section ul {
+    list-style: none;
+}
+
+.help-center-page .footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.help-center-page .footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.help-center-page .footer-section ul li a:hover {
+    color: white;
+}
+
+.help-center-page .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .help-center-page .container {
+        padding: 0 1rem;
+    }
+
+    .help-center-page .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .help-center-page .hero-subtitle {
+        font-size: 1.125rem;
+    }
+
+    .help-center-page .section-title {
+        font-size: 2rem;
+    }
+
+    .help-center-page .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .help-center-page .ljiet-overview {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .help-center-page .help-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .help-center-page .support-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .help-center-page .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .help-center-page .support-options {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .help-center-page .auth-buttons {
+        gap: 0.5rem;
+    }
+
+    .help-center-page .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .help-center-page .hero-section {
+        padding: 3rem 0 4rem;
+    }
+
+    .help-center-page .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .help-center-page .institution-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .help-center-page .programs-grid {
+        grid-template-columns: 1fr;
+    }
+} 

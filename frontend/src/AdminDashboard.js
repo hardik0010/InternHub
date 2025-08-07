@@ -65,11 +65,36 @@ function AdminDashboard() {
     <div className="admin-dashboard-container">
       <header className="admin-dashboard-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src="/image.png" alt="LJIET Logo" style={{ height: 90, width: 90, objectFit: 'contain' }} />
+          <img
+            src="/image.png"
+            alt="LJIET Logo"
+            style={{ height: 90, width: 90, objectFit: 'contain' }}
+          />
           <h2 style={{ margin: 0 }}>LJIET Admin Dashboard</h2>
         </div>
-        <button className="btn secondary" onClick={handleLogout}>Logout</button>
+
+        {/* Fully Inline-Styled Button */}
+        <button className='btn'
+          onClick={handleLogout}
+          style={{
+            backgroundColor: '#blue',   // same as .secondary
+            color: '#white',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            padding: '8px 16px',
+            fontSize: '1rem',
+            whiteSpace: 'nowrap',
+            width: 'auto',
+            maxWidth: 'fit-content',
+            flexShrink: 0,
+          }}
+        >
+          Logout
+        </button>
       </header>
+
+
       <div className="dashboard-content">
         {/* Analytics Cards */}
         <div className="dashboard-cards-grid">
@@ -91,14 +116,14 @@ function AdminDashboard() {
             <div className="dashboard-card-icon" style={{ color: '#2563eb' }}><FaCheckCircle /></div>
             <div className="dashboard-card-info">
               <h3>{publishedCount === null ? '...' : publishedCount}</h3>
-              <p>Active Positions</p>
+              <p>Active Companies</p>
             </div>
           </div>
           <div className="dashboard-card" style={{ borderTop: '4px solid #e53e3e', cursor: 'pointer' }} onClick={() => navigate('/admin/companies/edit')}>
             <div className="dashboard-card-icon" style={{ color: '#e53e3e' }}><FaTimesCircle /></div>
             <div className="dashboard-card-info">
               <h3>{closedCount === null ? '...' : closedCount}</h3>
-              <p>Closed Positions</p>
+              <p>Closed Companies</p>
             </div>
           </div>
         </div>

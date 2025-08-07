@@ -1,0 +1,557 @@
+/* How It Works Page Styles */
+.how-it-works-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-size: 16px;
+}
+
+/* Import variables */
+:root {
+    --primary-blue: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-blue: #3b82f6;
+    --accent-orange: #f59e0b;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-light: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success-green: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Header - Same as LandingPage */
+.how-it-works-page .header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.how-it-works-page .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.how-it-works-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.how-it-works-page .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.how-it-works-page .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.how-it-works-page .auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.how-it-works-page .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.how-it-works-page .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.how-it-works-page .btn-outline:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-blue);
+}
+
+.how-it-works-page .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: 1px solid var(--primary-blue);
+}
+
+.how-it-works-page .btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.how-it-works-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.how-it-works-page .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.how-it-works-page .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.how-it-works-page .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Section Headers */
+.how-it-works-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.how-it-works-page .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.how-it-works-page .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Overview Section */
+.how-it-works-page .overview-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.how-it-works-page .overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.how-it-works-page .overview-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-page .overview-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.how-it-works-page .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.how-it-works-page .overview-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .overview-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Workflow Section */
+.how-it-works-page .workflow-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.how-it-works-page .workflow-steps {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.how-it-works-page .step {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    align-items: flex-start;
+}
+
+.how-it-works-page .step:last-child {
+    margin-bottom: 0;
+}
+
+.how-it-works-page .step-number {
+    background: var(--primary-blue);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+}
+
+.how-it-works-page .step-content {
+    flex: 1;
+}
+
+.how-it-works-page .step-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .step-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .step-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.how-it-works-page .step-content li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.how-it-works-page .step-content li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+/* Company Workflow Section */
+.how-it-works-page .company-workflow-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.how-it-works-page .company-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.how-it-works-page .company-step {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-page .company-step:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.how-it-works-page .step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .company-step h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .company-step p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Institution Section */
+.how-it-works-page .institution-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.how-it-works-page .institution-features {
+    margin-top: 3rem;
+}
+
+.how-it-works-page .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.how-it-works-page .feature-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-page .feature-item:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.how-it-works-page .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .feature-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .feature-item p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Features Section */
+.how-it-works-page .features-section {
+    padding: 6rem 0;
+    background: var(--bg-primary);
+}
+
+.how-it-works-page .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.how-it-works-page .feature-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-page .feature-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.how-it-works-page .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.how-it-works-page .feature-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Footer */
+.how-it-works-page .footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.how-it-works-page .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.how-it-works-page .footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.how-it-works-page .footer-section ul {
+    list-style: none;
+}
+
+.how-it-works-page .footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.how-it-works-page .footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.how-it-works-page .footer-section ul li a:hover {
+    color: white;
+}
+
+.how-it-works-page .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .how-it-works-page .container {
+        padding: 0 1rem;
+    }
+
+    .how-it-works-page .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .how-it-works-page .hero-subtitle {
+        font-size: 1.125rem;
+    }
+
+    .how-it-works-page .section-title {
+        font-size: 2rem;
+    }
+
+    .how-it-works-page .overview-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .how-it-works-page .step {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .how-it-works-page .company-steps {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .how-it-works-page .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .how-it-works-page .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .how-it-works-page .auth-buttons {
+        gap: 0.5rem;
+    }
+
+    .how-it-works-page .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .how-it-works-page .hero-section {
+        padding: 3rem 0 4rem;
+    }
+
+    .how-it-works-page .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .how-it-works-page .step-content h3 {
+        font-size: 1.25rem;
+    }
+
+    .how-it-works-page .company-step {
+        padding: 1.5rem;
+    }
+} 

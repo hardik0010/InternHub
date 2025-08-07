@@ -114,11 +114,18 @@ function EditCompany({ selectMode }) {
         <div style={{marginBottom:24}}>
           <h3 style={{marginBottom:12}}>Published Companies</h3>
           {published.length === 0 && <div style={{color:'#888',marginBottom:12}}>No published companies.</div>}
-          <ul style={{listStyle:'none',padding:0}}>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
             {published.map(c => (
-              <li key={c._id} style={{marginBottom:12,display:'flex',alignItems:'center',justifyContent:'space-between',background:'#f3f6fa',padding:'12px 16px',borderRadius:8}}>
-                <span><b>{c.name}</b> <span style={{color:'#888',fontSize:'0.95em'}}>({c.role})</span></span>
-                <button className="btn" onClick={() => navigate(`/admin/companies/edit/${c._id}`)}>Edit</button>
+              <li key={c._id} style={{ marginBottom: 12,display: 'flex',alignItems: 'center',justifyContent: 'space-between',background: '#f3f6fa',padding: '12px 16px',borderRadius: 8,}}>
+                {/* LEFT SECTION */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 'bold' }}>{c.name}</div>
+                  <div style={{ color: '#888', fontSize: '0.95em' }}>{c.role}</div>
+                </div>
+                {/* RIGHT SECTION */}
+                <div style={{ marginLeft: 16 }}>
+                  <button className="btn" onClick={() => navigate(`/admin/companies/edit/${c._id}`)}>Edit</button>
+                </div>
               </li>
             ))}
           </ul>
@@ -148,11 +155,20 @@ function EditCompany({ selectMode }) {
         <div>
           <h3 style={{marginBottom:12}}>Closed Companies</h3>
           {closed.length === 0 && <div style={{color:'#888',marginBottom:12}}>No closed companies.</div>}
-          <ul style={{listStyle:'none',padding:0}}>
-            {closed.map(c => (
-              <li key={c._id} style={{marginBottom:12,display:'flex',alignItems:'center',justifyContent:'space-between',background:'#f8d7da',padding:'12px 16px',borderRadius:8}}>
-                <span><b>{c.name}</b> <span style={{color:'#888',fontSize:'0.95em'}}>({c.role})</span></span>
-                <button className="btn" onClick={() => navigate(`/admin/companies/edit/${c._id}`)}>Edit</button>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {closed.map((c) => (
+              <li key={c._id} style={{ marginBottom: 12,display: 'flex',alignItems: 'center',justifyContent: 'space-between',background: '#f8d7da', padding: '12px 16px',borderRadius: 8,}}>
+                {/* LEFT: Name and Role */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 'bold' }}>{c.name}</div>
+                  <div style={{ color: '#888', fontSize: '0.95em' }}>{c.role}</div>
+                </div>
+                {/* RIGHT: Edit Button */}
+                <div style={{ marginLeft: 16 }}>
+                  <button className="btn" onClick={() => navigate(`/admin/companies/edit/${c._id}`)}>
+                    Edit
+                  </button>
+                </div>
               </li>
             ))}
           </ul>

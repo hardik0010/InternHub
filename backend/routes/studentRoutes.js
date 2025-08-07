@@ -456,16 +456,29 @@ router.post('/upload-resume', authenticateToken, upload.single('resume'), async 
 // Get available companies
 router.get('/companies', authenticateToken, async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = '', branch = '', batch = '' } = req.query;
+    const { page = 1, limit = 12, search = '', filter = 'all' } = req.query;
     const studentId = req.user._id;
 
     let query = { status: 'published' };
 
+    // Search functionality
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
-        { role: { $regex: search, $options: 'i' } }
+        { role: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
       ];
+    }
+
+    // Filter functionality
+    if (filter === 'bookmarked') {
+      const bookmarkedCompanyIds = await Bookmark.find({ studentId })
+        .distinct('companyId');
+      query._id = { $in: bookmarkedCompanyIds };
+    } else if (filter === 'applied') {
+      const appliedCompanyIds = await Application.find({ studentId })
+        .distinct('companyId');
+      query._id = { $in: appliedCompanyIds };
     }
 
     const companies = await Company.find(query)
@@ -492,7 +505,7 @@ router.get('/companies', authenticateToken, async (req, res) => {
     res.json({
       companies: companiesWithStatus,
       totalPages: Math.ceil(total / limit),
-      currentPage: page,
+      currentPage: parseInt(page),
       total
     });
   } catch (error) {
