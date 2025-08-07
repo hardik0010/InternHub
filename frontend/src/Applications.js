@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   FaArrowLeft, 
   FaSpinner, 
@@ -10,10 +10,12 @@ import {
   FaTimes,
   FaClock,
   FaChartLine,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaSearch
 } from 'react-icons/fa';
 import axios from 'axios';
-import './App.css';
+import './Applications.css';
+import logo from './logo.png';
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -83,39 +85,87 @@ const Applications = () => {
     }
   };
 
-  if (loading) {
+  // Render loading skeleton
+  if (loading && applications.length === 0) {
     return (
-      <div className="auth-container">
-        <div className="verification-content">
-          <FaSpinner className="verification-icon spinning" />
-          <h2>Loading Applications...</h2>
-          <p>Please wait while we fetch your application history.</p>
+      <div className="applications-page">
+        <header className="applications-header">
+          <div className="container">
+            <div className="header-content">
+              <Link to="/" className="logo">
+                <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+                <div className="logo-text">InternHub</div>
+              </Link>
+              <button 
+                className="back-button"
+                onClick={() => navigate('/student/dashboard')}
+              >
+                <FaArrowLeft />
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div className="applications-container">
+          <h2 className="section-title">My Applications</h2>
+          
+          <div className="filter-section">
+            <div className="filter-controls">
+              <div className="loading-skeleton" style={{ height: '36px', width: '200px', borderRadius: '0.5rem' }}></div>
+            </div>
+          </div>
+
+          <div className="applications-list">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="application-card">
+                <div className="application-header">
+                  <div className="application-info">
+                    <div className="loading-skeleton" style={{ height: '20px', width: '80%', marginBottom: '6px' }}></div>
+                    <div className="loading-skeleton" style={{ height: '16px', width: '60%' }}></div>
+                  </div>
+                  <div className="loading-skeleton" style={{ height: '24px', width: '100px', borderRadius: '4px' }}></div>
+                </div>
+                
+                <div className="application-details">
+                  {[1, 2, 3].map(j => (
+                    <div key={j} className="detail-item">
+                      <div className="loading-skeleton" style={{ width: '16px', height: '16px', borderRadius: '50%' }}></div>
+                      <div className="loading-skeleton" style={{ height: '16px', width: '70%' }}></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container">
+    <div className="applications-page">
       {/* Header */}
-      <header className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-header-left">
+      <header className="applications-header">
+        <div className="container">
+          <div className="header-content">
+            <Link to="/" className="logo">
+              <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+              <div className="logo-text">InternHub</div>
+            </Link>
             <button 
-              className="btn secondary back-btn"
+              className="back-button"
               onClick={() => navigate('/student/dashboard')}
             >
-              <FaArrowLeft />
-              Back to Dashboard
+              <FaArrowLeft /> Back to Dashboard
             </button>
-            <h1>My Applications</h1>
-            <p>Track your application status and progress</p>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="dashboard-main">
+      <div className="applications-container">
+        <h2 className="section-title">My Applications</h2>
+        
         {/* Filter Section */}
         <div className="filter-section">
           <div className="filter-controls">
@@ -142,6 +192,7 @@ const Applications = () => {
 
         {error && (
           <div className="error-message">
+            <FaExclamationTriangle />
             {error}
           </div>
         )}
@@ -255,9 +306,9 @@ const Applications = () => {
         )}
 
         {applications.length === 0 && !loading && (
-          <div className="no-applications">
-            <FaFileAlt className="no-applications-icon" />
-            <h3>No applications found</h3>
+          <div className="empty-state">
+            <FaFileAlt className="empty-icon" />
+            <h3>No Applications Found</h3>
             <p>
               {statusFilter === 'all' 
                 ? "You haven't applied to any companies yet. Start by browsing available companies!"
@@ -266,7 +317,7 @@ const Applications = () => {
             </p>
             {statusFilter === 'all' && (
               <button 
-                className="btn primary"
+                className="action-button primary-button"
                 onClick={() => navigate('/companies')}
               >
                 Browse Companies
@@ -274,9 +325,34 @@ const Applications = () => {
             )}
           </div>
         )}
-      </main>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="pagination-controls">
+            <button
+              className="pagination-button"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <FaArrowLeft /> Previous
+            </button>
+            
+            <span className="pagination-info">
+              Page {currentPage} of {totalPages}
+            </span>
+            
+            <button
+              className="pagination-button"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Applications; 
+export default Applications;

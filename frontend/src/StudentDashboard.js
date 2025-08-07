@@ -20,7 +20,7 @@ import {
 } from 'react-icons/fa';
 import io from 'socket.io-client';
 import axios from 'axios';
-import './App.css';
+import './StudentDashboard.css';
 import ProfileMenu from './ProfileMenu';
 
 const ITEMS_PER_PAGE = 3;
@@ -28,6 +28,9 @@ const ITEMS_PER_PAGE = 3;
 const StudentDashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
+  const [deadlinesLoading, setDeadlinesLoading] = useState(true);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
   const [stats, setStats] = useState({
     totalCompanies: 0,
     applicationsCount: 0,
@@ -95,13 +98,34 @@ const StudentDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      setActivitiesLoading(true);
+      setDeadlinesLoading(true);
       setError(null);
 
       // Fetch dashboard stats
       const statsResponse = await axios.get('/api/student/dashboard/stats');
       setStats(statsResponse.data.stats);
-      setUpcomingDeadlines(statsResponse.data.upcomingDeadlines);
-      setRecentActivities(statsResponse.data.recentActivities);
+      
+      // Check if upcomingDeadlines exists in the response
+      if (statsResponse.data.upcomingDeadlines) {
+        console.log('Upcoming deadlines:', statsResponse.data.upcomingDeadlines);
+        setUpcomingDeadlines(statsResponse.data.upcomingDeadlines);
+      } else {
+        console.error('No upcomingDeadlines in response:', statsResponse.data);
+        setUpcomingDeadlines([]);
+      }
+      
+      // Check if recentActivities exists in the response
+      if (statsResponse.data.recentActivities) {
+        setRecentActivities(statsResponse.data.recentActivities);
+      } else {
+        console.error('No recentActivities in response:', statsResponse.data);
+        setRecentActivities([]);
+      }
+      
+      // Set loading states to false after data is loaded
+      setActivitiesLoading(false);
+      setDeadlinesLoading(false);
 
       // Fetch recent notifications
       const notificationsResponse = await axios.get('/api/student/notifications?limit=5');
@@ -114,6 +138,8 @@ const StudentDashboard = () => {
     } catch (error) {
       console.error('Dashboard data fetch error:', error);
       setError('Failed to load dashboard data');
+      setActivitiesLoading(false);
+      setDeadlinesLoading(false);
     } finally {
       setLoading(false);
     }
@@ -125,6 +151,10 @@ const StudentDashboard = () => {
       socket.disconnect();
     }
     navigate('/');
+  };
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
   };
 
   const markNotificationAsRead = async (notificationId) => {
@@ -166,17 +196,29 @@ const StudentDashboard = () => {
     }
   };
 
-  const handleEditProfile = async (updatedData) => {
-    try {
-      setErrorMsg('');
+const handleEditProfile = async (updatedData) => {
+  try {
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    const res = await axios.patch('/api/users/profile', updatedData);
+    setUser(res.data.user);
+    setSuccessMsg('Profile updated successfully!');
+
+    // Automatically clear the success message after 2 seconds
+    setTimeout(() => {
       setSuccessMsg('');
-      const res = await axios.patch('/api/users/profile', updatedData);
-      setUser(res.data.user);
-      setSuccessMsg('Profile updated successfully!');
-    } catch (err) {
-      setErrorMsg(err.response?.data?.error || 'Failed to update profile.');
-    }
-  };
+    }, 2000);
+  } catch (err) {
+    setErrorMsg(err.response?.data?.error || 'Failed to update profile.');
+
+    // Automatically clear the error message after 2 seconds
+    setTimeout(() => {
+      setErrorMsg('');
+    }, 2000);
+  }
+};
+
 
   const handleChangePassword = async (passwordData) => {
     try {
@@ -200,16 +242,42 @@ const StudentDashboard = () => {
       });
       setUser(res.data.user);
       setSuccessMsg('Profile picture updated!');
+      setTimeout(() => {
+        setSuccessMsg('');
+      }, 2000);
     } catch (err) {
       setErrorMsg(err.response?.data?.error || 'Failed to update profile picture.');
+      setTimeout(() => {
+        setErrorMsg('');
+      }, 2000);
     }
   };
 
-  // Pagination logic
-  const paginatedActivities = recentActivities.slice((activitiesPage - 1) * ITEMS_PER_PAGE, activitiesPage * ITEMS_PER_PAGE);
+  // We don't need this useEffect anymore since we're handling loading states in fetchDashboardData
+  // useEffect(() => {
+  //   if (recentActivities.length > 0) {
+  //     setActivitiesLoading(false);
+  //   }
+    
+  //   if (upcomingDeadlines.length > 0) {
+  //     setDeadlinesLoading(false);
+  //   }
+  // }, [recentActivities, upcomingDeadlines]);
+
+  // Calculate paginated activities
+  const startActivityIndex = (activitiesPage - 1) * ITEMS_PER_PAGE;
+  const paginatedActivities = recentActivities.slice(
+    startActivityIndex,
+    startActivityIndex + ITEMS_PER_PAGE
+  );
   const totalActivitiesPages = Math.ceil(recentActivities.length / ITEMS_PER_PAGE);
 
-  const paginatedDeadlines = upcomingDeadlines.slice((deadlinesPage - 1) * ITEMS_PER_PAGE, deadlinesPage * ITEMS_PER_PAGE);
+  // Calculate paginated deadlines
+  const startDeadlineIndex = (deadlinesPage - 1) * ITEMS_PER_PAGE;
+  const paginatedDeadlines = upcomingDeadlines.slice(
+    startDeadlineIndex,
+    startDeadlineIndex + ITEMS_PER_PAGE
+  );
   const totalDeadlinesPages = Math.ceil(upcomingDeadlines.length / ITEMS_PER_PAGE);
 
   if (loading) {
@@ -243,133 +311,120 @@ const StudentDashboard = () => {
     <div className="app-container">
       {/* Header */}
       <header className="dashboard-header">
-        <div className="dashboard-header-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem' }}>
-          <div className="dashboard-header-left" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '1.7rem', color: '#2563eb' }}>
-              <img src="/image.png" alt="LJIET Logo" style={{ height: 50, width: 50, objectFit: 'contain', marginRight:7}} />InternHub
-            </span>
-          </div>
-          <div className="dashboard-header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative' }}>
-            <span style={{ color: '#2c3e50', fontSize: '1.05rem', marginRight: 8 }}>
-              Welcome back, <b style={{ color: '#222', fontWeight: 700 }}>{user?.name}</b>
-            </span>
-            <div className="notification-wrapper">
+        <div className="header-content">
+          <a href="/" className="logo-container">
+            <img src="/image.png" alt="LJIET Logo" style={{ height: 50, width: 50, objectFit: 'contain' }} />
+            <span className="logo-text">InternHub</span>
+          </a>
+          <div className="user-nav">
+            <div className="notifications-container">
               <button 
-                className="btn notification-btn"
-                style={{ background: '#fff', border: '2px solid #2563eb', color: '#2563eb', borderRadius: '12px', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', marginRight: 0, padding: 0 }}
-                onClick={() => setShowNotifications(!showNotifications)}
+                className="icon-button"
+                onClick={toggleNotifications}
+                aria-label="Notifications"
               >
-                <FaBell style={{ color: '#2563eb', fontSize: '1.5rem', margin: 0, padding: 0, display: 'block' }} />
+                <FaBell />
                 {stats.unreadNotifications > 0 && (
                   <span className="notification-badge">{stats.unreadNotifications}</span>
                 )}
               </button>
               {showNotifications && (
-                <div className="notification-dropdown">
-                  <div className="notification-header">
-                    <h4>Notifications</h4>
+                <div className="notifications-dropdown">
+                  <div className="notifications-header">
+                    <h3>Notifications</h3>
                     <button 
-                      className="mark-all-read"
-                      onClick={() => {
-                        axios.patch('/api/student/notifications/read-all');
-                        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-                        setStats(prev => ({ ...prev, unreadNotifications: 0 }));
-                      }}
+                      className="close-button"
+                      onClick={() => setShowNotifications(false)}
+                      aria-label="Close notifications"
                     >
-                      Mark all read
+                      <FaTimes />
                     </button>
                   </div>
-                  <div className="notification-list">
-                    {notifications.length > 0 ? (
+                  <div className="notifications-list">
+                    {notificationsLoading ? (
+                      <div className="loading-container">
+                        <div className="spinner"></div>
+                        <span>Loading notifications...</span>
+                      </div>
+                    ) : notifications.length > 0 ? (
                       notifications.map(notification => (
                         <div 
                           key={notification._id} 
                           className={`notification-item ${!notification.isRead ? 'unread' : ''}`}
                           onClick={() => markNotificationAsRead(notification._id)}
                         >
-                          <div className="notification-content">
-                            <h5>{notification.title}</h5>
-                            <p>{notification.message}</p>
-                            <small>{new Date(notification.createdAt).toLocaleDateString()}</small>
+                          <div className="notification-title">{notification.title}</div>
+                          <div className="notification-message">{notification.message}</div>
+                          <div className="notification-time">
+                            {new Date(notification.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       ))
                     ) : (
-                      <p className="no-notifications">No notifications</p>
+                      <div className="empty-notification">No notifications yet</div>
                     )}
                   </div>
                 </div>
               )}
             </div>
-            <button
-              className="btn notification-btn"
-              style={{ borderRadius: '50%', width: 40, height: 40, padding: 0, border: '2px solid #2563eb', background: '#fff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
-              onClick={() => setShowProfileMenu((prev) => !prev)}
-              aria-label="Profile"
-            >
-              {user?.profilePicUrl ? (
-                <img src={user.profilePicUrl} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
-              ) : (
-                <FaUser style={{ fontSize: '1.5rem', color: '#2563eb' }} />
+            <div className="user-info">
+              <button 
+                className="profile-button"
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                aria-label="User profile"
+              >
+                {user?.profilePicUrl ? (
+                  <img src={user.profilePicUrl} alt="Profile" className="avatar-img" />
+                ) : (
+                  <div className="user-avatar">
+                    {user && user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                )}
+                <span className="profile-name">{user?.name}</span>
+              </button>
+              {showProfileMenu && (
+                <ProfileMenu 
+                  user={user} 
+                  onLogout={handleLogout} 
+                  onEdit={handleEditProfile}
+                  onChangePassword={handleChangePassword}
+                  onProfilePicChange={handleProfilePicChange}
+                  onClose={() => setShowProfileMenu(false)}
+                />
               )}
-            </button>
-            {showProfileMenu && (
-              <ProfileMenu
-                user={user}
-                onLogout={handleLogout}
-                onEdit={handleEditProfile}
-                onChangePassword={handleChangePassword}
-                onProfilePicChange={handleProfilePicChange}
-                onClose={() => setShowProfileMenu(false)}
-              />
-            )}
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="dashboard-main">
-        {/* Stats Cards */}
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <div className="dashboard-card-icon" style={{ background: '#6c63ff' }}>
-              <FaSearch />
-            </div>
-            <div className="dashboard-card-content">
-              <div className="dashboard-card-number">{stats.totalCompanies}</div>
-              <div style={{ fontWeight: 600 }}>Available Companies</div>
-              <div className="dashboard-card-description">Active listings for your profile</div>
-            </div>
+        <div className="dashboard-welcome">
+          <h1 className="dashboard-title">
+            Welcome back, <span style={{ color: '#2563eb' }}>{user?.name}</span>
+          </h1>
+          <p style={{ fontSize: '1.1rem', color: '#4b5563', marginBottom: '2rem' }}>
+            Here's an overview of your internship applications and opportunities.
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-value">{stats.totalCompanies}</div>
+            <div className="stat-label">Available Companies</div>
           </div>
-          <div className="dashboard-card">
-            <div className="dashboard-card-icon" style={{ background: '#ff6c9c' }}>
-              <FaFileAlt />
-            </div>
-            <div className="dashboard-card-content">
-              <div className="dashboard-card-number">{stats.applicationsCount}</div>
-              <div style={{ fontWeight: 600 }}>Applications</div>
-              <div className="dashboard-card-description">Applications submitted</div>
-            </div>
+          <div className="stat-card">
+            <div className="stat-value">{stats.applicationsCount}</div>
+            <div className="stat-label">Applications</div>
           </div>
-          <div className="dashboard-card">
-            <div className="dashboard-card-icon" style={{ background: '#3b82f6' }}>
-              <FaBookmark />
-            </div>
-            <div className="dashboard-card-content">
-              <div className="dashboard-card-number">{stats.bookmarksCount}</div>
-              <div style={{ fontWeight: 600 }}>Bookmarked</div>
-              <div className="dashboard-card-description">Companies you've saved</div>
-            </div>
+          <div className="stat-card">
+            <div className="stat-value">{stats.bookmarksCount}</div>
+            <div className="stat-label">Bookmarked</div>
           </div>
-          <div className="dashboard-card">
-            <div className="dashboard-card-icon" style={{ background: '#10b981' }}>
-              <FaUser />
-            </div>
-            <div className="dashboard-card-content">
-              <div className="dashboard-card-number">{stats.profileCompletion}%</div>
-              <div style={{ fontWeight: 600 }}>Profile Completion</div>
-              <div className="dashboard-card-description">Complete your profile</div>
-            </div>
+          <div className="stat-card">
+            <div className="stat-value">{stats.profileCompletion}%</div>
+            <div className="stat-label">Profile Completion</div>
           </div>
         </div>
 
@@ -396,92 +451,141 @@ const StudentDashboard = () => {
         {/* Main Content Grid */}
         <div className="dashboard-content-grid">
           {/* Recent Activities */}
-          <div className="activities-section">
-            <div style={{display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-              <h3><FaClock style={{ marginRight: 8 }} /> Recent Activities</h3>
-              <div className="activities-list" style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                {paginatedActivities.length > 0 ? (
-                  paginatedActivities.map(activity => (
-                    <div key={activity._id} className="activity-item">
-                      <div className="activity-icon">
-                        {activity.type === 'application_submitted' && <FaFileAlt />}
-                        {activity.type === 'bookmark_added' && <FaBookmark />}
-                        {activity.type === 'profile_updated' && <FaUser />}
-                        {activity.type === 'resume_uploaded' && <FaUpload />}
-                      </div>
-                      <div className="activity-content">
-                        <h4>{activity.title}</h4>
-                        <p>{activity.description}</p>
-                        <small>{new Date(activity.createdAt).toLocaleDateString()}</small>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="no-activities">No recent activities</p>
-                )}
-              </div>
-              {/* Pagination Controls for Activities */}
-              {totalActivitiesPages > 1 && (
-                <div className="pagination-controls">
-                  <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.max(1, p - 1))} disabled={activitiesPage === 1}>Previous</button>
-                  {Array.from({ length: totalActivitiesPages }, (_, i) => (
-                    <button
-                      key={i}
-                      className={`pagination-btn${activitiesPage === i + 1 ? ' active' : ''}`}
-                      onClick={() => setActivitiesPage(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                  <button className="pagination-btn" onClick={() => setActivitiesPage(p => Math.min(totalActivitiesPages, p + 1))} disabled={activitiesPage === totalActivitiesPages}>Next</button>
-                </div>
-              )}
+          <div className="dashboard-section">
+            <div className="section-header">
+                <h2 className="section-title">Recent Activity</h2>
+                {/* <button className="btn btn-outline" onClick={() => navigate('/history')}>
+                    View All Activity
+                </button> */}
             </div>
-          </div>
+
+            {activitiesLoading ? (
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                    <span>Loading activities...</span>
+                </div>
+            ) : recentActivities.length === 0 ? (
+              <div className="empty-state">
+                <FaClock className="empty-state-icon" />
+                <h3>No Recent Activities</h3>
+                <p>Your recent activities will be shown here.</p>
+              </div>
+            ) : paginatedActivities.length > 0 ? (
+                <div className="activity-list">
+                    {paginatedActivities.map(activity => (
+                        <div key={activity._id} className="activity-item">
+                            <div className="activity-icon">
+                                {activity.type === 'application_submitted' && <FaFileAlt />}
+                                {activity.type === 'bookmark_added' && <FaBookmark />}
+                                {activity.type === 'profile_updated' && <FaUser />}
+                                {activity.type === 'resume_uploaded' && <FaUpload />}
+                            </div>
+                            <div className="activity-content">
+                                <div className="activity-title">{activity.title}</div>
+                                <div className="activity-description">{activity.description}</div>
+                                <div className="activity-time">{new Date(activity.createdAt).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    ))}
+                    {totalActivitiesPages > 1 && (
+                        <div className="pagination">
+                            <button
+                                className="btn btn-outline"
+                                onClick={() => setActivitiesPage(p => Math.max(1, p - 1))}
+                                disabled={activitiesPage === 1}
+                            >
+                                Previous
+                            </button>
+                            <span className="pagination-info">
+                                Page {activitiesPage} of {totalActivitiesPages}
+                            </span>
+                            <button
+                                className="btn btn-outline"
+                                onClick={() => setActivitiesPage(p => Math.min(totalActivitiesPages, p + 1))}
+                                disabled={activitiesPage === totalActivitiesPages}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="empty-state">
+                    <FaClock className="empty-state-icon" />
+                    <h3>No Recent Activities</h3>
+                    <p>Your recent activities will be shown here.</p>
+                </div>
+            )}
+        </div>
 
           {/* Upcoming Deadlines */}
-          <div className="deadlines-section">
-            <div style={{display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-              <h3><FaCalendarAlt style={{ marginRight: 8 }} /> Upcoming Deadlines</h3>
-              <div className="deadlines-list" style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                {paginatedDeadlines.length > 0 ? (
-                  paginatedDeadlines.map(application => (
+          <div className="dashboard-section">
+            <div className="section-header">
+              <h2 className="section-title">Upcoming Deadlines</h2>
+              {/* <button className="btn btn-outline" onClick={() => navigate('/companies')}>
+                View All Companies
+              </button> */}
+            </div>
+            
+            {deadlinesLoading ? (
+              <div className="loading-container">
+                <div className="spinner"></div>
+                <span>Loading deadlines...</span>
+              </div>
+            ) : upcomingDeadlines.length === 0 ? (
+              <div className="empty-state">
+                <FaClock className="empty-state-icon" />
+                <h3>No Upcoming Deadlines</h3>
+                <p>There are currently no application deadlines approaching.</p>
+              </div>
+            ) : (
+              <div className="deadlines-list">
+                {paginatedDeadlines.map((application) => (
                     <div key={application._id} className="deadline-item">
-                      <div className="deadline-info">
-                        <h4>{application.companyId.name}</h4>
-                        <p>{application.companyId.role}</p>
-                        <small>Deadline: {new Date(application.deadline).toLocaleDateString()}</small>
+                      <div className="deadline-item-header">
+                        <h3 className="company-name">{application.companyId.name}</h3>
+                        <span className={`status-badge status-${application.status}`}>
+                          {application.status}
+                        </span>
                       </div>
-                      <div 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(application.status) }}
-                      >
-                        {getStatusIcon(application.status)}
-                        {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                      <div className="deadline-item-content">
+                        <div className="deadline-info">
+                          <FaCalendarAlt />
+                          <span>Application Deadline: {new Date(application.deadline).toLocaleDateString()}</span>
+                        </div>
+                        <button 
+                          className="btn btn-primary btn-sm"
+                          onClick={() => navigate(`/companies/${application.companyId._id}`)}
+                        >
+                          View Details
+                        </button>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <p className="no-deadlines">No upcoming deadlines</p>
+                  ))}
+                
+                {totalDeadlinesPages > 1 && (
+                  <div className="pagination">
+                    <button 
+                      className="btn btn-outline"
+                      onClick={() => setDeadlinesPage(p => Math.max(1, p - 1))}
+                      disabled={deadlinesPage === 1}
+                    >
+                      Previous
+                    </button>
+                    <span className="pagination-info">
+                      Page {deadlinesPage} of {totalDeadlinesPages}
+                    </span>
+                    <button 
+                      className="btn btn-outline"
+                      onClick={() => setDeadlinesPage(p => Math.min(totalDeadlinesPages, p + 1))}
+                      disabled={deadlinesPage === totalDeadlinesPages}
+                    >
+                      Next
+                    </button>
+                  </div>
                 )}
               </div>
-              {/* Pagination Controls for Deadlines */}
-              {totalDeadlinesPages > 1 && (
-                <div className="pagination-controls">
-                  <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.max(1, p - 1))} disabled={deadlinesPage === 1}>Previous</button>
-                  {Array.from({ length: totalDeadlinesPages }, (_, i) => (
-                    <button
-                      key={i}
-                      className={`pagination-btn${deadlinesPage === i + 1 ? ' active' : ''}`}
-                      onClick={() => setDeadlinesPage(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                  <button className="pagination-btn" onClick={() => setDeadlinesPage(p => Math.min(totalDeadlinesPages, p + 1))} disabled={deadlinesPage === totalDeadlinesPages}>Next</button>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </main>
@@ -492,4 +596,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard; 
+export default StudentDashboard;

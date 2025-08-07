@@ -27,7 +27,7 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 console.log('Loaded MONGODB_URI:', process.env.MONGODB_URI ? '***CONFIGURED***' : '***NOT CONFIGURED***');

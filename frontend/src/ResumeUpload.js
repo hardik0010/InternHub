@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaUpload, FaSpinner, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import axios from 'axios';
-import './App.css';
+import './ResumeUpload.css';
 
 const ResumeUpload = () => {
   const [file, setFile] = useState(null);
@@ -51,22 +51,23 @@ const ResumeUpload = () => {
   };
 
   return (
-    <div className="app-container">
-      <header className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-header-left">
-            <button className="btn secondary back-btn" onClick={() => navigate('/student/dashboard')}>
-              <FaArrowLeft />
-              Back to Dashboard
+    <div className="resume-upload-page">
+      <header className="resume-header">
+        <div className="container">
+          <div className="header-content">
+            <button className="back-btn" onClick={() => navigate('/student/dashboard')}>
+              <FaArrowLeft /> Back to Dashboard
             </button>
-            <h1>Upload Resume</h1>
-            <p>Upload your latest resume in PDF format for applications and analysis.</p>
+            <div>
+              <h1 className="header-title">Upload Resume</h1>
+              <p className="header-subtitle">Upload your latest resume in PDF format for applications and analysis.</p>
+            </div>
           </div>
         </div>
       </header>
-      <main className="dashboard-main">
-        <form className="resume-upload-form" onSubmit={handleUpload}>
-          <label htmlFor="resume" className="file-input-label">
+      <main className="main-content">
+        <form className="upload-form" onSubmit={handleUpload}>
+          <label htmlFor="resume" className="file-label">
             <FaUpload />
             {file ? file.name : 'Choose PDF file'}
             <input
@@ -78,24 +79,22 @@ const ResumeUpload = () => {
               disabled={uploading}
             />
           </label>
-          <button className="btn primary" type="submit" disabled={uploading}>
+          <button className="upload-btn" type="submit" disabled={uploading}>
             {uploading ? <FaSpinner className="spinning" /> : 'Upload Resume'}
           </button>
         </form>
         {success && (
-          <div className="success-msg">
+          <div className="success-message">
             <FaCheckCircle style={{ marginRight: 8 }} /> Resume uploaded successfully!
             {resumeUrl && (
-              <div style={{ marginTop: 8 }}>
-                <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="btn secondary">
-                  View Uploaded Resume
-                </a>
-              </div>
+              <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="view-link">
+                View Uploaded Resume
+              </a>
             )}
           </div>
         )}
         {error && (
-          <div className="error-msg">
+          <div className="error-message">
             <FaExclamationTriangle style={{ marginRight: 8 }} /> {error}
           </div>
         )}
@@ -104,4 +103,4 @@ const ResumeUpload = () => {
   );
 };
 
-export default ResumeUpload; 
+export default ResumeUpload;

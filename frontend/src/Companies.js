@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   FaSearch, 
   FaBookmark, 
@@ -18,39 +18,40 @@ import {
   FaRocket
 } from 'react-icons/fa';
 import axios from 'axios';
-import './App.css';
+import './Companies.css';
+import logo from './logo.png';
 
 // Loading Skeleton Component
 const CompanyCardSkeleton = () => (
   <div className="company-card skeleton-card">
     <div className="company-card-header">
-      <div className="company-logo loading-skeleton" style={{ width: '60px', height: '60px', borderRadius: '1rem' }}></div>
+      <div className="company-logo loading-skeleton" style={{ width: '48px', height: '48px', borderRadius: '0.5rem' }}></div>
       <div className="company-title" style={{ flex: 1 }}>
-        <div className="loading-skeleton" style={{ height: '24px', width: '80%', marginBottom: '8px' }}></div>
-        <div className="loading-skeleton" style={{ height: '20px', width: '60%' }}></div>
+        <div className="loading-skeleton" style={{ height: '20px', width: '80%', marginBottom: '6px' }}></div>
+        <div className="loading-skeleton" style={{ height: '16px', width: '60%' }}></div>
       </div>
-      <div className="loading-skeleton" style={{ width: '32px', height: '32px', borderRadius: '50%' }}></div>
+      <div className="loading-skeleton" style={{ width: '28px', height: '28px', borderRadius: '50%' }}></div>
     </div>
     
     <div className="company-role-section">
-      <div className="loading-skeleton" style={{ height: '20px', width: '70%', marginBottom: '12px' }}></div>
-      <div className="loading-skeleton" style={{ height: '16px', width: '100%', marginBottom: '8px' }}></div>
-      <div className="loading-skeleton" style={{ height: '16px', width: '90%' }}></div>
+      <div className="loading-skeleton" style={{ height: '18px', width: '70%', marginBottom: '8px' }}></div>
+      <div className="loading-skeleton" style={{ height: '14px', width: '100%', marginBottom: '6px' }}></div>
+      <div className="loading-skeleton" style={{ height: '14px', width: '90%' }}></div>
     </div>
 
     <div className="company-details">
       {[1, 2, 3].map(i => (
         <div key={i} className="detail-item">
-          <div className="loading-skeleton" style={{ width: '16px', height: '16px', borderRadius: '50%' }}></div>
-          <div className="loading-skeleton" style={{ height: '16px', width: '60px' }}></div>
-          <div className="loading-skeleton" style={{ height: '16px', width: '40%' }}></div>
+          <div className="loading-skeleton" style={{ width: '14px', height: '14px', borderRadius: '50%' }}></div>
+          <div className="loading-skeleton" style={{ height: '14px', width: '50px' }}></div>
+          <div className="loading-skeleton" style={{ height: '14px', width: '40%' }}></div>
         </div>
       ))}
     </div>
 
     <div className="company-actions">
-      <div className="loading-skeleton" style={{ height: '40px', flex: 1 }}></div>
-      <div className="loading-skeleton" style={{ height: '40px', flex: 1 }}></div>
+      <div className="loading-skeleton" style={{ height: '36px', flex: 1 }}></div>
+      <div className="loading-skeleton" style={{ height: '36px', flex: 1 }}></div>
     </div>
   </div>
 );
@@ -147,15 +148,23 @@ const Companies = () => {
   // Render loading skeleton
   if (loading && companies.length === 0) {
     return (
-      <div className="app-container new-design-bg">
-        <div className="new-header">
-          <button 
-            className="back-button"
-            onClick={() => navigate('/student/dashboard')}
-          >
-            <FaArrowLeft />
-          </button>
-        </div>
+      <div className="companies-page">
+        <header className="companies-header">
+          <div className="container">
+            <div className="header-content">
+              <Link to="/" className="logo">
+                <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+                <div className="logo-text">InternHub</div>
+              </Link>
+              <button 
+                className="back-button"
+                onClick={() => navigate('/student/dashboard')}
+              >
+                <FaArrowLeft /> Back to Dashboard
+              </button>
+            </div>
+          </div>
+        </header>
 
         <div className="search-filter-container">
           <div className="search-container">
@@ -181,16 +190,24 @@ const Companies = () => {
   }
 
   return (
-    <div className="app-container new-design-bg">
-      {/* New Header */}
-      <div className="new-header">
-        <button 
-          className="back-button"
-          onClick={() => navigate('/student/dashboard')}
-        >
-          <FaArrowLeft />
-        </button>
-      </div>
+    <div className="companies-page">
+      {/* Header */}
+      <header className="companies-header">
+        <div className="container">
+          <div className="header-content">
+            <Link to="/" className="logo">
+              <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+              <div className="logo-text">InternHub</div>
+            </Link>
+            <button 
+              className="back-button"
+              onClick={() => navigate('/student/dashboard')}
+            >
+              <FaArrowLeft /> 
+            </button>
+          </div>
+        </div>
+      </header>
 
       {/* Search and Filter Section */}
       <div className="search-filter-container">
@@ -247,6 +264,9 @@ const Companies = () => {
 
       {/* Companies Grid */}
       <div className="companies-container">
+        <div className="section-header">
+          <h2 className="section-title">Available Opportunities</h2>
+        </div>
         <div className="companies-grid">
           {loading ? (
             <>
@@ -469,4 +489,4 @@ const Companies = () => {
   );
 };
 
-export default Companies; 
+export default Companies;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   FaArrowLeft, 
   FaSpinner, 
@@ -8,10 +8,14 @@ import {
   FaGraduationCap,
   FaBookmark,
   FaTrash,
-  FaEye
+  FaEye,
+  FaBuilding,
+  FaSearch,
+  FaExclamationTriangle
 } from 'react-icons/fa';
 import axios from 'axios';
-import './App.css';
+import './Bookmarks.css';
+import logo from './logo.png';
 
 const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -68,47 +72,103 @@ const Bookmarks = () => {
     }
   };
 
-  if (loading) {
+  // Render loading skeleton
+  if (loading && bookmarks.length === 0) {
     return (
-      <div className="auth-container">
-        <div className="verification-content">
-          <FaSpinner className="verification-icon spinning" />
-          <h2>Loading Bookmarks...</h2>
-          <p>Please wait while we fetch your bookmarked companies.</p>
+      <div className="bookmarks-page">
+        <header className="bookmarks-header">
+          <div className="container">
+            <div className="header-content">
+              <Link to="/" className="logo">
+                <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+                <div className="logo-text">InternHub</div>
+              </Link>
+              <button 
+                className="back-button"
+                onClick={() => navigate('/student/dashboard')}
+              >
+                <FaArrowLeft />
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div className="bookmarks-container">
+          <h2 className="section-title">Bookmarked Companies</h2>
+          
+          <div className="bookmarks-list">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="bookmark-card skeleton">
+                <div className="bookmark-header">
+                  <div className="company-logo skeleton-circle"></div>
+                  <div className="bookmark-info">
+                    <div className="skeleton-text skeleton-title"></div>
+                    <div className="skeleton-text skeleton-subtitle"></div>
+                  </div>
+                  <div className="bookmark-button skeleton-circle"></div>
+                </div>
+                
+                <div className="bookmark-role-section">
+                  <div className="skeleton-text skeleton-title"></div>
+                  <div className="skeleton-text"></div>
+                  <div className="skeleton-text"></div>
+                </div>
+
+                <div className="bookmark-details">
+                  <div className="detail-item">
+                    <div className="skeleton-circle skeleton-icon"></div>
+                    <div className="skeleton-text"></div>
+                  </div>
+                  <div className="detail-item">
+                    <div className="skeleton-circle skeleton-icon"></div>
+                    <div className="skeleton-text"></div>
+                  </div>
+                </div>
+
+                <div className="bookmark-actions-footer">
+                  <div className="skeleton-button"></div>
+                  <div className="skeleton-button"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container">
+    <div className="bookmarks-page">
       {/* Header */}
-      <header className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-header-left">
+      <header className="bookmarks-header">
+        <div className="container">
+          <div className="header-content">
+            <Link to="/" className="logo">
+              <img src={logo} alt="InternHub logo" style={{width:'60px'}}/>
+              <div className="logo-text">InternHub</div>
+            </Link>
             <button 
-              className="btn secondary back-btn"
+              className="back-button"
               onClick={() => navigate('/student/dashboard')}
             >
-              <FaArrowLeft />
-              Back to Dashboard
+              <FaArrowLeft /> Back to Dashboard
             </button>
-            <h1>Bookmarked Companies</h1>
-            <p>Your saved companies for quick access</p>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="dashboard-main">
+      <div className="bookmarks-container">
+        <h2 className="section-title">Bookmarked Companies</h2>
+        
         {error && (
           <div className="error-message">
+            <FaExclamationTriangle />
             {error}
           </div>
         )}
 
-        {/* Bookmarks Grid */}
-        <div className="bookmarks-grid">
+        <div className="bookmarks-list"> {/* Bookmarks Grid */}
           {bookmarks.map(bookmark => (
             <div key={bookmark._id} className="bookmark-card">
               <div className="bookmark-header">
@@ -230,9 +290,9 @@ const Bookmarks = () => {
             </button>
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 };
 
-export default Bookmarks; 
+export default Bookmarks;
